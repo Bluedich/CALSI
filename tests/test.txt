@@ -13,4 +13,6 @@ b = turn;
 1
 1
 1
+1
+1
 flag[i] = false;
