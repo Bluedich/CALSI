@@ -1,61 +1,55 @@
 package org.backend;
+import PreTreatment;
+import Variable;
 import bsh.EvalError;
 import bsh.Interpreter;
 
 public class Process {
 
+	
+	static Variable[] sharedVars;
+	
 
-	static int turn;
-	static boolean[] flag;
-	
-	
 	String[] sourceCode;	
 	int currentLine;
 	Interpreter inter;
 	public boolean done;
 	
-	public Process(int i, String source) throws EvalError {
+	public Process(int index, String source) throws Exception {
+		
+		String[] varNames = new String[2];
+		varNames[0] = "turn";
+		varNames[1] = "flag";
 		
 		this.inter = new Interpreter();
+
 		
-		Process.flag = new boolean[2];
 		
-		this.inter.set("i", i);
+		this.inter.set("i", index);
 		
-		this.inter.eval("int turn;");
-		this.inter.eval("boolean[] flag;");
+		this.inter.eval("Integer turn;");
+		this.inter.eval("Boolean[] flag;");
 
 		this.inter.eval("int j;");
 		this.inter.eval("boolean a;");
 		this.inter.eval("int b;");
 		
-		this.inter.eval("flag = new boolean[2];");
+		this.inter.eval("turn = new Integer(0);");
+		this.inter.eval("flag = new Boolean[2];");
 		this.inter.eval("flag[0] = false;");
 		this.inter.eval("flag[1] = false;");
 		
 		
 		source = PreTreatment.preTreatWhile(source);
 		this.sourceCode = source.split("\\r?\\n");
-//		this.sourceCode = new String[16];
-//
-//		this.sourceCode[0] = new String("j = (i+1) % 2;");
-//		this.sourceCode[1] = new String("flag[i] = true;");
-//		this.sourceCode[2] = new String("turn = j;");
-//		this.sourceCode[3] = new String("a = flag[j];");
-//		this.sourceCode[4] = new String("b = turn;");
-//		this.sourceCode[5] = new String("goto ( !(a == true && b == j) , 9);");
-//		this.sourceCode[6] = new String("a = flag[j];");
-//		this.sourceCode[7] = new String("b = turn;");
-//		this.sourceCode[8] = new String("goto (true, 5);");
-//		this.sourceCode[9] = new String("1");
-//		this.sourceCode[10] = new String("1");
-//		this.sourceCode[11] = new String("1");
-//		this.sourceCode[12] = new String("1");
-//		this.sourceCode[13] = new String("1");
-//		this.sourceCode[14] = new String("1");
-//		this.sourceCode[15] = new String("flag[i] = false;");
-		
 
+		this.sharedVars = new Variable[varNames.length];
+
+		for(int i=0; i<varNames.length; ++i) {
+			this.sharedVars[i] = new Variable(varNames[i], this.inter.get(varNames[i]));
+		}
+		
+		
 		this.currentLine = 0;
 		this.done = false;		
 	}
@@ -80,14 +74,16 @@ public class Process {
 		
 	}
 	
-	public void oneStep() throws EvalError {
+	public void oneStep() throws Exception {
 		
 		if(this.done)
 			return;
 		
-		this.inter.set("turn", Process.turn);
-		this.inter.set("flag", Process.flag);
-
+		for(int i=0; i<this.sharedVars.length; ++i) {
+			this.inter.set(this.sharedVars[i].getName(), this.sharedVars[i].getObj());
+		}
+		
+		
 		//System.out.println(this.sourceCode[this.currentLine]);
 		
 		if(this.sourceCode[this.currentLine].indexOf("goto") >= 0) {
@@ -98,10 +94,12 @@ public class Process {
 		}
 		
 
-
+		for(int i=0; i<this.sharedVars.length; ++i) {
+			this.sharedVars[i].setObj(this.inter.get(this.sharedVars[i].getName()));
+		}
 		
-		Process.turn = (int) this.inter.get("turn");
-		Process.flag = (boolean[]) this.inter.get("flag");
+		
+
 		
 		if(this.currentLine >= this.sourceCode.length) {
 			this.done = true;
