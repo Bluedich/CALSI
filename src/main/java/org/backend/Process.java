@@ -1,109 +1,87 @@
 package org.backend;
-import PreTreatment;
-import Variable;
+
 import bsh.EvalError;
 import bsh.Interpreter;
 
 public class Process {
-
-	
 	static Variable[] sharedVars;
-	
-
-	String[] sourceCode;	
+	String[] sourceCode;
 	int currentLine;
 	Interpreter inter;
 	public boolean done;
-	
-	public Process(int index, String source) throws Exception {
-		
+
+	public Process(int index, PreTreatment preTreatment) throws EvalError, BadSourceCodeException {
 		String[] varNames = new String[2];
 		varNames[0] = "turn";
 		varNames[1] = "flag";
-		
+
 		this.inter = new Interpreter();
 
-		
-		
 		this.inter.set("i", index);
-		
-		this.inter.eval("Integer turn;");
-		this.inter.eval("Boolean[] flag;");
+		try {
+			this.inter.eval(preTreatment.getInitialisationBlock());
+		} catch (EvalError e) {
+			e.printStackTrace();
+			throw new BadSourceCodeException("Error in initialisation");
+		}
 
-		this.inter.eval("int j;");
-		this.inter.eval("boolean a;");
-		this.inter.eval("int b;");
-		
-		this.inter.eval("turn = new Integer(0);");
-		this.inter.eval("flag = new Boolean[2];");
-		this.inter.eval("flag[0] = false;");
-		this.inter.eval("flag[1] = false;");
-		
-		
-		source = PreTreatment.preTreatWhile(source);
+		String source = preTreatment.getPreTreatedSource();
+
 		this.sourceCode = source.split("\\r?\\n");
 
-		this.sharedVars = new Variable[varNames.length];
-
-		for(int i=0; i<varNames.length; ++i) {
-			this.sharedVars[i] = new Variable(varNames[i], this.inter.get(varNames[i]));
-		}
-		
-		
 		this.currentLine = 0;
-		this.done = false;		
+		this.done = false;
 	}
-	
+
 	public void treatFile() {
-		
+
 	}
-	
+
 	public void treatGoto() throws EvalError {
-		//currentLine is a goto
+		// currentLine is a goto
 		String instruction = this.sourceCode[this.currentLine];
 		String condition = instruction.substring(6, instruction.indexOf(','));
-		int targetLine = Integer.parseInt(instruction.substring(instruction.indexOf(',')+1, instruction.length()-2).trim());
+		int targetLine = Integer
+				.parseInt(instruction.substring(instruction.indexOf(',') + 1, instruction.length() - 2).trim());
 
-		
 		boolean test = (boolean) this.inter.eval(condition);
 
-		if(test)
+		if (test)
 			this.currentLine = targetLine;
 		else
 			++this.currentLine;
-		
+
 	}
-	
-	public void oneStep() throws Exception {
-		
-		if(this.done)
+
+	public void oneStep() throws EvalError {
+
+		if (this.done)
 			return;
-		
-		for(int i=0; i<this.sharedVars.length; ++i) {
-			this.inter.set(this.sharedVars[i].getName(), this.sharedVars[i].getObj());
+
+		for (int i = 0; i < Process.sharedVars.length; ++i) {
+			this.inter.set(Process.sharedVars[i].getName(), Process.sharedVars[i].getObj());
 		}
-		
-		
-		//System.out.println(this.sourceCode[this.currentLine]);
-		
-		if(this.sourceCode[this.currentLine].indexOf("goto") >= 0) {
+
+		// System.out.println(this.sourceCode[this.currentLine]);
+
+		if (this.sourceCode[this.currentLine].indexOf("goto") >= 0) {
 			this.treatGoto();
-		}else {
-			this.inter.eval(this.sourceCode[this.currentLine]);			
+		} else {
+			this.inter.eval(this.sourceCode[this.currentLine]);
 			this.currentLine++;
 		}
-		
 
-		for(int i=0; i<this.sharedVars.length; ++i) {
-			this.sharedVars[i].setObj(this.inter.get(this.sharedVars[i].getName()));
+		for (int i = 0; i < Process.sharedVars.length; ++i) {
+			Process.sharedVars[i].setObj(this.inter.get(Process.sharedVars[i].getName()));
 		}
-		
-		
 
-		
-		if(this.currentLine >= this.sourceCode.length) {
+		if (this.currentLine >= this.sourceCode.length) {
 			this.done = true;
 		}
 	}
-	
+
+	public static void setSharedVars(PreTreatment preTreatment) {
+		sharedVars = preTreatment.getSharedVars();
+	}
+
 }
