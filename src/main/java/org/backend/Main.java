@@ -1,7 +1,6 @@
 package org.backend;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -22,7 +21,7 @@ public class Main {
 		String content = stringBuilder.toString();
 		
 		PreTreatment preTreatment = new PreTreatment(content);
-		preTreatment.testPreTreatment();
+		Process.setSharedVars(preTreatment);
 		
 		Scheduler sch = new Scheduler();
 		
@@ -34,7 +33,6 @@ public class Main {
 			int i = sch.getNext(procs);
 			procs[i].oneStep();
 		}
-		System.out.println(Process.turn);
 	}
 
 }

@@ -22,7 +22,7 @@ public class Process {
 			this.inter.eval(preTreatment.getInitialisationBlock());
 		} catch (EvalError e) {
 			e.printStackTrace();
-			throw new BadSourceCodeException("Error in initialisation");
+			throw new BadSourceCodeException("Error in initialization.");
 		}
 
 		String source = preTreatment.getPreTreatedSource();
@@ -81,7 +81,7 @@ public class Process {
 	}
 
 	public static void setSharedVars(PreTreatment preTreatment) {
-		sharedVars = preTreatment.getSharedVars();
+		Process.sharedVars = preTreatment.getSharedVars();
 	}
 
 }

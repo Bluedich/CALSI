@@ -137,14 +137,15 @@ public class PreTreatment {
 	 * @param startOfBlock
 	 * @param blockLines
 	 * @param interpreter
+	 * @throws BadSourceCodeException 
 	 */
-	private void declareLocalVars(int startOfBlock, String[] blockLines, Interpreter interpreter) {
+	private void declareLocalVars(int startOfBlock, String[] blockLines, Interpreter interpreter) throws BadSourceCodeException {
 		localVars = new Variable[blockLines.length];
 		String line;
 		String varName;
 		for (int i = 0; i < blockLines.length; i++) {
 			line = blockLines[i];
-			varName = parseVarName(line);
+			varName = parseVarName(startOfBlock + i, line);
 			localVars[i] = new Variable(varName);
 		}
 	}
@@ -190,7 +191,7 @@ public class PreTreatment {
 		String varName;
 		for (int i = 0; i < blockLines.length; i++) {
 			line = blockLines[i];
-			varName = parseVarName(line);
+			varName = parseVarName(startOfBlock + i, line);
 			try {
 				// We init the variable in the bsh interpreter for
 				interpreter.eval(line);
@@ -208,13 +209,16 @@ public class PreTreatment {
 	 * 
 	 * @param string The line of code to parse
 	 * @return The name of the declared variable
+	 * @throws BadSourceCodeException 
 	 */
-	private String parseVarName(String line) {
+	private String parseVarName(int lineNumber, String line) throws BadSourceCodeException {
 		// Eventual leading and trailing whitespaces are removed, in addition to the
 		// ';'.
 		line = line.trim();
+		if (!line.substring(line.length() - 1).equals(";")) throw new BadSourceCodeException("Missing ';' in variable declaration on line " + lineNumber);
 		line = line.substring(0, line.length() - 1);
 		// We assume a format of "variableType variableName;"
+		if (line.length() != 2) throw new BadSourceCodeException("Invalid variable declaration on line " + lineNumber);
 		return line.split("\\s+")[1];
 	}
 

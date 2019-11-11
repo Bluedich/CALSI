@@ -30,7 +30,6 @@ public class Variable {
 	public Variable(String name) {
 		this.name = name;
 	}
-	
 	public void update(Object obj) {
 		this.obj = obj;
 		this.type = Type.getType(obj);
