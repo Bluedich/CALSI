@@ -1,0 +1,26 @@
+import java.lang.Math; 
+
+// Shared variables declaration
+String door;
+Integer idRegister;
+
+// Shared variables initialization
+idRegister = -1;
+door = "OPEN";
+
+// No local variables declaration
+
+// Splitter Algorithm
+idRegister = i;
+If (door == "CLOSED"){
+	return "right";
+}
+Else {
+	door = "CLOSED";
+	If (idRegister == i) {
+		return "stop";
+	}
+	Else {
+		return "down";
+	}
+}

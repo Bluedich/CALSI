@@ -34,7 +34,6 @@ public class Main {
 			int i = sch.getNext(procs);
 			procs[i].oneStep();
 		}
-		System.out.println(Process.turn);
 	}
 
 }
