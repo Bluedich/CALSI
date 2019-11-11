@@ -218,7 +218,7 @@ public class PreTreatment {
 		if (!line.substring(line.length() - 1).equals(";")) throw new BadSourceCodeException("Missing ';' in variable declaration on line " + lineNumber);
 		line = line.substring(0, line.length() - 1);
 		// We assume a format of "variableType variableName;"
-		if (line.length() != 2) throw new BadSourceCodeException("Invalid variable declaration on line " + lineNumber);
+		if (line.split("\\s+").length != 2) throw new BadSourceCodeException("Invalid variable declaration on line " + lineNumber);
 		return line.split("\\s+")[1];
 	}
 
