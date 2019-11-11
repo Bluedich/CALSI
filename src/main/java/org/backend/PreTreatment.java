@@ -269,5 +269,9 @@ public class PreTreatment {
 	public Variable[] getSharedVars() {
 		return sharedVars;
 	}
+	
+	public Variable[] getLocalVars() {
+		return localVars.clone();
+	}
 
 }

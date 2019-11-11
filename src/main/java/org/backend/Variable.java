@@ -31,9 +31,11 @@ public class Variable {
 		this.name = name;
 	}
 	public void update(Object obj) {
-		this.obj = obj;
+		if (obj != null) {
+			this.obj = obj;
+			this.isArray = obj.getClass().isArray();
+		}
 		this.type = Type.getType(obj);
-		this.isArray = obj.getClass().isArray();
 	}
 
 	public final String getName() {

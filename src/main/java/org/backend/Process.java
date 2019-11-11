@@ -5,19 +5,20 @@ import bsh.Interpreter;
 
 public class Process {
 	static Variable[] sharedVars;
+	Variable[] localVars;
 	String[] sourceCode;
 	int currentLine;
 	Interpreter inter;
 	public boolean done;
 
 	public Process(int index, PreTreatment preTreatment) throws EvalError, BadSourceCodeException {
-		String[] varNames = new String[2];
-		varNames[0] = "turn";
-		varNames[1] = "flag";
-
+	
 		this.inter = new Interpreter();
 
+		// Reserved variables
 		this.inter.set("i", index);
+		
+		// Execution of the initialization block (imports, and variable declarations)
 		try {
 			this.inter.eval(preTreatment.getInitialisationBlock());
 		} catch (EvalError e) {
@@ -25,6 +26,9 @@ public class Process {
 			throw new BadSourceCodeException("Error in initialization.");
 		}
 
+		// We receive a copy of the array of local variables
+		localVars = preTreatment.getLocalVars();
+		
 		String source = preTreatment.getPreTreatedSource();
 
 		this.sourceCode = source.split("\\r?\\n");
@@ -58,12 +62,15 @@ public class Process {
 		if (this.done)
 			return;
 
+		// The shared variables in the interpreter (which might have been modified in an other process since) are 
+		// updated from the array of shared variables.
 		for (int i = 0; i < Process.sharedVars.length; ++i) {
 			this.inter.set(Process.sharedVars[i].getName(), Process.sharedVars[i].getObj());
 		}
 
 		// System.out.println(this.sourceCode[this.currentLine]);
 
+		// One line is executed
 		if (this.sourceCode[this.currentLine].indexOf("goto") >= 0) {
 			this.treatGoto();
 		} else {
@@ -71,9 +78,19 @@ public class Process {
 			this.currentLine++;
 		}
 
+		// After the step, the shared variables are updated so their value can be shared between the processes
 		for (int i = 0; i < Process.sharedVars.length; ++i) {
 			Process.sharedVars[i].setObj(this.inter.get(Process.sharedVars[i].getName()));
 		}
+		
+		// Local variables are also updated for the GUI
+		for (int i = 0; i < localVars.length; ++i) {
+			localVars[i].update(this.inter.get(localVars[i].getName()));
+		}
+		
+		//for (int i = 0; i < localVars.length; ++i) {
+		//	System.out.print(" name: " + localVars[i].getName() + " type: " + localVars[i].getType() + " value: " + localVars[i].getObj());
+		//}
 
 		if (this.currentLine >= this.sourceCode.length) {
 			this.done = true;
