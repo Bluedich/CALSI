@@ -1,11 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 
-
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.frontend.FXMLController">
-   <children>
-      <Label fx:id="label" text="Label" />
-   </children>
-</StackPane>
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.frontend.FXMLController">
+  <children>
+    <MenuBar VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Open…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Save As…" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Edit">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Cut" />
+            <MenuItem mnemonicParsing="false" text="Copy" />
+            <MenuItem mnemonicParsing="false" text="Paste" />
+          </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="Scheduler">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Import File ..." />
+               </items>
+            </Menu>
+      </menus>
+    </MenuBar>
+      <HBox prefHeight="77.0" prefWidth="900.0">
+         <children>
+            <Pane prefHeight="34.0" prefWidth="906.0">
+               <children>
+                  <Label layoutX="637.0" layoutY="8.0" text="Scheduling Policy " />
+                  <ChoiceBox fx:id="choiceBox2" layoutX="741.0" layoutY="4.0" prefWidth="150.0" />
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+    <HBox id="HBox" alignment="CENTER_LEFT" prefHeight="585.0" prefWidth="900.0" spacing="5.0" VBox.vgrow="NEVER">
+      <padding>
+        <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+      </padding>
+         <children>
+            <HBox prefHeight="568.0" prefWidth="183.0">
+               <children>
+                  <TextArea prefHeight="200.0" prefWidth="200.0" text="P1 P2&#10;&#10;&#10;P3&#10;&#10;P4" />
+               </children>
+            </HBox>
+            <HBox prefHeight="568.0" prefWidth="475.0">
+               <children>
+                  <TextArea prefHeight="568.0" prefWidth="475.0" text="global a = 1&#10;global b = 2&#10;global c = 3&#10;global d = 4&#10;local e = a+b&#10;local d = c + d" />
+               </children>
+            </HBox>
+            <HBox prefHeight="568.0" prefWidth="228.0">
+               <children>
+                  <Pane prefHeight="452.0" prefWidth="226.0">
+                     <children>
+                        <VBox prefHeight="169.0" prefWidth="226.0">
+                           <children>
+                              <Pane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button layoutX="7.0" layoutY="2.0" mnemonicParsing="false" text="Start" />
+                                    <Button layoutX="5.0" layoutY="98.0" mnemonicParsing="false" text="Next Step" />
+                                    <Button layoutX="5.0" layoutY="131.0" mnemonicParsing="false" text="Previous Step" />
+                                    <Button layoutX="7.0" layoutY="34.0" mnemonicParsing="false" text="Stop" />
+                                    <Slider layoutX="5.0" layoutY="71.0" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                        <VBox layoutY="183.0" prefHeight="353.0" prefWidth="226.0">
+                           <children>
+                              <Pane prefHeight="354.0" prefWidth="226.0">
+                                 <children>
+                                    <ChoiceBox fx:id="choiceBox" layoutX="4.0" layoutY="33.0" prefWidth="150.0" />
+                                    <ListView fx:id="listView" layoutY="69.0" prefHeight="126.0" prefWidth="226.0" />
+                                    <ListView fx:id="listView2" layoutY="225.0" prefHeight="126.0" prefWidth="226.0" />
+                                    <Label layoutX="14.0" layoutY="6.0" text="Local Variables" />
+                                    <Label layoutX="10.0" layoutY="205.0" text="Global Variables" />
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </children>
+    </HBox>
+  </children>
+</VBox>
