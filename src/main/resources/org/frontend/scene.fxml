@@ -21,7 +21,7 @@
 
 <VBox prefHeight="720.0" prefWidth="1080" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.frontend.FXMLController">
   <children>
-    <MenuBar VBox.vgrow="NEVER">
+    <MenuBar fx:id="menuBar" VBox.vgrow="NEVER">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
@@ -51,16 +51,18 @@
             <Pane prefHeight="38.0" prefWidth="1071.0">
                <children>
                   <Label layoutX="118.0" layoutY="10.0" text="Scheduling Policy " />
-                  <ChoiceBox fx:id="choiceBox2" layoutX="214.0" layoutY="6.0" prefWidth="150.0" />
-                  <Button layoutX="14.0" layoutY="6.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="New Execution" />
+                  <ChoiceBox fx:id="choixeBoxScheduling" layoutX="214.0" layoutY="6.0" prefWidth="150.0" />
+                  <Button fx:id="buttonNewExecution" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="New Execution" />
                   <Label layoutX="379.0" layoutY="10.0" text="Speed" />
-                  <Slider layoutX="423.0" layoutY="12.0" />
-                  <TextField layoutX="563.0" layoutY="6.0" prefHeight="25.0" prefWidth="51.0" text="50" />
-                  <Button layoutX="828.0" layoutY="7.0" mnemonicParsing="false" text="Do steps" />
-                  <TextField layoutX="903.0" layoutY="7.0" prefHeight="25.0" prefWidth="86.0" text="10" />
-                  <Label layoutX="621.0" layoutY="11.0" text="steps per second" />
-                  <Button layoutX="727.0" layoutY="7.0" mnemonicParsing="false" text="Start" />
-                  <Button layoutX="778.0" layoutY="7.0" mnemonicParsing="false" text="Stop" />
+                  <Slider fx:id="sliderSpeed" layoutX="423.0" layoutY="12.0" prefHeight="14.0" prefWidth="89.0" />
+                  <TextField fx:id="textFieldSpeed" layoutX="512.0" layoutY="6.0" prefHeight="25.0" prefWidth="51.0" text="50" />
+                  <Button fx:id="buttonDoSteps" layoutX="760.0" layoutY="7.0" mnemonicParsing="false" text="Do steps" />
+                  <TextField fx:id="textFieldNumberOfSteps" layoutX="830.0" layoutY="7.0" prefHeight="25.0" prefWidth="86.0" text="10" />
+                  <Label layoutX="569.0" layoutY="10.0" text="steps per second" />
+                  <Button fx:id="buttonStart" layoutX="665.0" layoutY="7.0" mnemonicParsing="false" text="Start" />
+                  <Button fx:id="buttonStop" layoutX="713.0" layoutY="6.0" mnemonicParsing="false" text="Stop" />
+                  <Button fx:id="buttonPlusStep" layoutX="922.0" layoutY="7.0" mnemonicParsing="false" text="+ step" />
+                  <Button fx:id="buttonMinusStep" layoutX="979.0" layoutY="7.0" mnemonicParsing="false" text="- step" />
                </children>
             </Pane>
          </children>
@@ -87,7 +89,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextArea prefHeight="618.0" prefWidth="642.0" text="global a = 1;&#10;global b = 2;&#10;global c = 3;&#10;global d = 3;&#10;local e = a+b;&#10;local d = c+d;" />
+                                    <TextArea fx:id="textAreaOriginalCode" layoutX="-15.0" layoutY="-1.0" prefHeight="618.0" prefWidth="657.0" text="global a = 1;&#10;global b = 2;&#10;global c = 3;&#10;global d = 3;&#10;local e = a+b;&#10;local d = c+d;" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -96,7 +98,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <TextArea prefHeight="615.0" prefWidth="634.0" />
+                                    <TextArea fx:id="textAreaParsedCode" prefHeight="615.0" prefWidth="634.0" />
                                  </children>
                               </AnchorPane>
                         </content>
@@ -118,7 +120,7 @@
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
                                                 <Label layoutX="14.0" layoutY="14.0" text="Number of processes" />
-                                                <TextField layoutX="14.0" layoutY="39.0" />
+                                                <TextField fx:id="textFieldNumberOfProcessesRandom" layoutX="14.0" layoutY="39.0" />
                                              </children>
                                           </AnchorPane>
                                     </content>
@@ -128,9 +130,9 @@
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
                                                 <Label layoutX="14.0" layoutY="78.0" text="Process that does the next steps" />
-                                                <ChoiceBox layoutX="14.0" layoutY="104.0" prefWidth="150.0" />
+                                                <ChoiceBox fx:id="choiceBoxStepByStep" layoutX="14.0" layoutY="104.0" prefWidth="150.0" />
                                                 <Label layoutX="14.0" layoutY="14.0" text="Number of processes" />
-                                                <TextField layoutX="15.0" layoutY="39.0" />
+                                                <TextField fx:id="textFieldNumberOfProcessesStepByStep" layoutX="15.0" layoutY="39.0" />
                                              </children>
                                           </AnchorPane>
                                     </content>
@@ -143,11 +145,11 @@
                            <children>
                               <Pane prefHeight="359.0" prefWidth="262.0">
                                  <children>
-                                    <ChoiceBox fx:id="choiceBox" layoutX="4.0" layoutY="33.0" prefWidth="150.0" />
+                                    <ChoiceBox fx:id="choiceBoxLocalVariables" layoutX="4.0" layoutY="33.0" prefWidth="150.0" />
                                     <ListView fx:id="listView1" layoutX="4.0" layoutY="68.0" prefHeight="126.0" prefWidth="131.0" />
                                     <ListView fx:id="listView3" layoutX="4.0" layoutY="222.0" prefHeight="133.0" prefWidth="131.0" />
                                     <Label layoutX="14.0" layoutY="6.0" text="Local Variables" />
-                                    <Label layoutX="10.0" layoutY="205.0" text="Global Variables" />
+                                    <Label layoutX="4.0" layoutY="205.0" text="Global Variables" />
                                     <ListView fx:id="listView2" layoutX="133.0" layoutY="68.0" prefHeight="126.0" prefWidth="131.0" />
                                     <ListView fx:id="listView4" layoutX="133.0" layoutY="222.0" prefHeight="133.0" prefWidth="131.0" />
                                  </children>

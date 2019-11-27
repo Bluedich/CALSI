@@ -12,8 +12,23 @@ import javafx.scene.control.ListView;
 public class FXMLController {
 
     @FXML
-    public Label rightStatus;
-    public Button startButton;
+    
+    private Button buttonStart;
+    private Button buttonStop;
+    private Button buttonNewExecution;
+    private Button buttonDoSteps;
+    private Button buttonPlusStep;
+    private Button buttonMinusStep;
+    
+    private ListView<String> listView1;
+    private ListView<String> listView2;
+    private ListView<String> listView3;
+    private ListView<String> listView4;
+   
+    private ChoiceBox<String> choiceBoxLocalVariables;
+    private ChoiceBox<String> choiceBoxScheduling;
+    
+    
     
     ObservableList<String> content1 = FXCollections.observableArrayList(
     		"e", "d");
@@ -24,19 +39,12 @@ public class FXMLController {
     ObservableList<String> content4 = FXCollections.observableArrayList(
     		"1", "2" , "3", "4");
     
-    public ListView<String> listView1;
-    public ListView<String> listView2;
-    public ListView<String> listView3;
-    public ListView<String> listView4;
-   
-    public ChoiceBox<String> choiceBoxLocalVariables;
-    public ChoiceBox<String> choiceBoxScheduling;
-    
+
     public void initialize() {
     	choiceBoxLocalVariables.getItems().addAll("P1", "P2", "P3", "P4");
-    	choiceBox.setValue("P4");
-    	choiceBox2.getItems().addAll("Step-by-step", "Random" , "With File");
-    	choiceBox2.setValue("Step-by-step");
+    	choiceBoxLocalVariables.setValue("P4");
+    	choiceBoxScheduling.getItems().addAll("Step-by-step", "Random" , "With File");
+    	choiceBoxScheduling.setValue("Step-by-step");
     	listView1.setItems(content1);
     	listView2.setItems(content2);
     	listView3.setItems(content3);
@@ -44,8 +52,5 @@ public class FXMLController {
     	
     }
 
-    public void onStartClicked(){
-    	rightStatus.setText("Running...");
-    }
         
 }
