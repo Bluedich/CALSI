@@ -20,7 +20,7 @@ public class MainApp extends Application {
         stage.setScene(scene);
         System.out.print("main class");
         stage.show();
-
+        
     }
 
     public static void main(String[] args) {
