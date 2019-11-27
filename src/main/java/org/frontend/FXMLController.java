@@ -13,20 +13,20 @@ public class FXMLController {
 
     @FXML
     
-    private Button buttonStart;
-    private Button buttonStop;
-    private Button buttonNewExecution;
-    private Button buttonDoSteps;
-    private Button buttonPlusStep;
-    private Button buttonMinusStep;
+    private Button buttonStart = new Button();
+    private Button buttonStop = new Button();
+    private Button buttonNewExecution = new Button();
+    private Button buttonDoSteps = new Button();
+    private Button buttonPlusStep = new Button();
+    private Button buttonMinusStep = new Button();
     
-    private ListView<String> listView1;
-    private ListView<String> listView2;
-    private ListView<String> listView3;
-    private ListView<String> listView4;
+    private ListView<String> listView1 = new ListView<String>();
+    private ListView<String> listView2 = new ListView<String>();
+    private ListView<String> listView3 = new ListView<String>();
+    private ListView<String> listView4 = new ListView<String>();
    
-    private ChoiceBox<String> choiceBoxLocalVariables;
-    private ChoiceBox<String> choiceBoxScheduling;
+    private ChoiceBox<String> choiceBoxLocalVariables = new ChoiceBox<String>();
+    private ChoiceBox<String> choiceBoxScheduling= new ChoiceBox<String>();
     
     
     
