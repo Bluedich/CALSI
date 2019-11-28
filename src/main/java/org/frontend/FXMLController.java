@@ -43,8 +43,7 @@ import javafx.scene.control.ListView;
 
 
 public class FXMLController {
-
-	@FXML	
+	
     ObservableList<String> content1 = FXCollections.observableArrayList(
     		"e", "d");
     ObservableList<String> content2 = FXCollections.observableArrayList(
@@ -55,28 +54,33 @@ public class FXMLController {
     		"1", "2" , "3", "4");
     
     
+    @FXML
+    private Button buttonStart;
+    @FXML
+    private Button buttonStop;
+    @FXML
+    private Button buttonNewExecution;
+    @FXML
+    private Button buttonDoSteps;
+    @FXML
+    private Button buttonPlusStep;
+    @FXML
+    private Button buttonMinusStep;
     
-    private Button buttonStart = new Button();
-    private Button buttonStop = new Button();
-    private Button buttonNewExecution = new Button();
-    private Button buttonDoSteps = new Button();
-    private Button buttonPlusStep = new Button();
-    private Button buttonMinusStep = new Button();
-    
     @FXML
-    private ListView<String> listView1 = new ListView<String>(content1);
+    private ListView<String> listView1;
     @FXML
-    private ListView<String> listView2 = new ListView<String>(content2);
+    private ListView<String> listView2;
     @FXML
-    private ListView<String> listView3 = new ListView<String>(content3);
+    private ListView<String> listView3;
     @FXML
-    private ListView<String> listView4 = new ListView<String>(content4);
+    private ListView<String> listView4;
    
     @FXML
-    private ChoiceBox<String> choiceBoxLocalVariables = new ChoiceBox<String>();
+    private ChoiceBox<String> choiceBoxLocalVariables;
     
     @FXML
-    private ChoiceBox<String> choiceBoxScheduling= new ChoiceBox<String>();
+    private ChoiceBox<String> choiceBoxScheduling;
     
     @FXML
     private Slider sliderSpeed;
