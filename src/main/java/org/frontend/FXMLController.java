@@ -112,7 +112,7 @@ public class FXMLController {
     	Double s= sliderSpeed.getValue();
     	String s2= df.format(s);
     	System.out.print(s+"\n");
-    	textFieldSpeed.setText("Speed:"+s2);
+    	textFieldSpeed.setText(""+s2);
     }
     public void savefile() {
     	System.out.print("test save\n");
