@@ -60,7 +60,7 @@
                   <TextField fx:id="textFieldNumberOfSteps" layoutX="830.0" layoutY="7.0" prefHeight="25.0" prefWidth="86.0" text="10" />
                   <Label layoutX="569.0" layoutY="10.0" text="steps per second" />
                   <Button fx:id="buttonStart" layoutX="665.0" layoutY="7.0" mnemonicParsing="false" text="Start" />
-                  <Button fx:id="buttonStop" layoutX="713.0" layoutY="6.0" mnemonicParsing="false" text="Stop" />
+                  <Button fx:id="buttonStop" layoutX="712.0" layoutY="7.0" mnemonicParsing="false" text="Stop" />
                   <Button fx:id="buttonPlusStep" layoutX="922.0" layoutY="7.0" mnemonicParsing="false" text="+ step" />
                   <Button fx:id="buttonMinusStep" layoutX="979.0" layoutY="7.0" mnemonicParsing="false" text="- step" />
                </children>
