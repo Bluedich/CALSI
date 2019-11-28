@@ -44,25 +44,7 @@ import javafx.scene.control.ListView;
 
 public class FXMLController {
 
-    @FXML
-    
-    private Button buttonStart = new Button();
-    private Button buttonStop = new Button();
-    private Button buttonNewExecution = new Button();
-    private Button buttonDoSteps = new Button();
-    private Button buttonPlusStep = new Button();
-    private Button buttonMinusStep = new Button();
-    
-    private ListView<String> listView1 = new ListView<String>();
-    private ListView<String> listView2 = new ListView<String>();
-    private ListView<String> listView3 = new ListView<String>();
-    private ListView<String> listView4 = new ListView<String>();
-   
-    private ChoiceBox<String> choiceBoxLocalVariables = new ChoiceBox<String>();
-    private ChoiceBox<String> choiceBoxScheduling= new ChoiceBox<String>();
-    
-    
-    
+	@FXML	
     ObservableList<String> content1 = FXCollections.observableArrayList(
     		"e", "d");
     ObservableList<String> content2 = FXCollections.observableArrayList(
@@ -72,25 +54,49 @@ public class FXMLController {
     ObservableList<String> content4 = FXCollections.observableArrayList(
     		"1", "2" , "3", "4");
     
+    
+    
+    private Button buttonStart = new Button();
+    private Button buttonStop = new Button();
+    private Button buttonNewExecution = new Button();
+    private Button buttonDoSteps = new Button();
+    private Button buttonPlusStep = new Button();
+    private Button buttonMinusStep = new Button();
+    
+    @FXML
+    private ListView<String> listView1 = new ListView<String>(content1);
+    @FXML
+    private ListView<String> listView2 = new ListView<String>(content2);
+    @FXML
+    private ListView<String> listView3 = new ListView<String>(content3);
+    @FXML
+    private ListView<String> listView4 = new ListView<String>(content4);
+   
+    @FXML
+    private ChoiceBox<String> choiceBoxLocalVariables = new ChoiceBox<String>();
+    
+    @FXML
+    private ChoiceBox<String> choiceBoxScheduling= new ChoiceBox<String>();
+    
+    @FXML
+    private Slider sliderSpeed;
+        
+    @FXML
+    private TextArea textAreaOriginalCode;
+    
+    @FXML
+    private TextField textFieldSpeed;   
+    
+
 	
 	private static DecimalFormat df = new DecimalFormat("0.0");
 	private String code="Ici votre code";
 	private String fichiercode="";
 	private String cordo="";
 
-    @FXML
-    private Slider sliderSpeed;
+
     
     
-    @FXML
-    private TextArea textAreaOriginalCode;
-    
-    @FXML
-    private TextField textFieldSpeed;
-    
-    
-    @FXML
-    public ChoiceBox<String> choixeBoxScheduling;
 
     public void initialize() {
     	choiceBoxLocalVariables.getItems().addAll("P1", "P2", "P3", "P4");
@@ -102,7 +108,7 @@ public class FXMLController {
     	listView3.setItems(content3);
     	listView4.setItems(content4);
     	textAreaOriginalCode.setText(code);
-    	choixeBoxScheduling.getItems().addAll("random","pas random","n1");
+    	
     	
     }
     public void speedtex() {
@@ -129,7 +135,7 @@ public class FXMLController {
     	
     }
     public void choiceordon() {
-    	cordo=choixeBoxScheduling.getValue();
+    	cordo=choiceBoxScheduling.getValue();
     	System.out.print(cordo+"\n");    	
     }
     public void btnfile() {

@@ -51,7 +51,7 @@
             <Pane prefHeight="38.0" prefWidth="1071.0">
                <children>
                   <Label layoutX="118.0" layoutY="10.0" text="Scheduling Policy " />
-                  <ChoiceBox fx:id="choixeBoxScheduling" layoutX="214.0" layoutY="6.0" prefWidth="150.0" />
+                  <ChoiceBox fx:id="choiceBoxScheduling" layoutX="214.0" layoutY="6.0" prefWidth="150.0" />
                   <Button fx:id="buttonNewExecution" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="New Execution" />
                   <Label layoutX="379.0" layoutY="10.0" text="Speed" />
                   <Slider fx:id="sliderSpeed" layoutX="423.0" layoutY="12.0" onMouseClicked="#slidert" onMouseDragged="#slidert" prefHeight="14.0" prefWidth="89.0" />
@@ -76,7 +76,7 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <TextArea layoutY="30.0" prefHeight="526.0" prefWidth="143.0" text="P1 P2&#10;&#10;&#10;P3&#10;&#10;P4" />
+                        <TextArea layoutY="30.0" prefHeight="618.0" prefWidth="143.0" text="P1 P2&#10;&#10;&#10;P3&#10;&#10;P4" />
                      </children>
                   </Pane>
                </children>
