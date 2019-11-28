@@ -1,10 +1,10 @@
 package org.frontend;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 
 
 public class MainApp extends Application {
@@ -18,7 +18,9 @@ public class MainApp extends Application {
         
         stage.setTitle("JavaFX and Gradle");
         stage.setScene(scene);
+        System.out.print("main class");
         stage.show();
+        
     }
 
     public static void main(String[] args) {
