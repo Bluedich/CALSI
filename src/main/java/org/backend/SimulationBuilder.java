@@ -1,7 +1,5 @@
 package org.backend;
 
-import java.io.File;
-
 public class SimulationBuilder {
 	String sourceCodeFileName;
 	int numberOfProcesses;

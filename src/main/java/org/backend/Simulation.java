@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.tools.Tools;
-
 import bsh.EvalError;
 
 public class Simulation {
@@ -12,7 +11,7 @@ public class Simulation {
 
 	// Simulation initialization parameters
 	private String sourceCodeFileName;
-	int numberOfProcesses;
+	private int numberOfProcesses;
 	private String schedulerType;
 
 	private Process processes[];
@@ -59,20 +58,20 @@ public class Simulation {
 	private void initSimulation() throws BackEndException {
 		String sourceCode = readSourceCode();
 		this.preTreatment = new PreTreatment(sourceCode);
-		
+
 		Process.setSharedVars(preTreatment);
-		
+
 		// TODO Scheduler needs to be chosen according to specified type
 		scheduler = new Scheduler(this);
-		
+
 		initProcesses();
 	}
-	
+
 	private void initProcesses() throws BackEndException {
-		// TODO needs to be generalized
-		processes = new Process[2];
-		processes[0] = new Process(0, preTreatment);
-		processes[1] = new Process(1, preTreatment);
+		processes = new Process[numberOfProcesses];
+		for (int i = 0; i < numberOfProcesses; i++) {
+			processes[i] = new Process(i, preTreatment);
+		}
 	}
 
 	private String readSourceCode() throws BackEndException {
