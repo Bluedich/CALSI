@@ -3,21 +3,23 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Scheduler {
-
+	private Simulation simulation;
 	public Random random;
 	
-	public ArrayList<String> order;
+	public ArrayList<String> executionOrderHistory;
 	
-	public Scheduler() {
+	public Scheduler(Simulation simulation) {
+		this.simulation = simulation;
 		this.random = new Random();
-		this.order = new ArrayList<String>();
+		this.executionOrderHistory = new ArrayList<String>();
 	}
 	
-	public int getNext(Process procs[]) {
+	public int getNext() {
+		Process procs[] = simulation.getProcesses();
 		boolean allDone = true;
 		
 		for(int i=0; i < procs.length; ++i) {
-			if(!procs[i].done) {
+			if(!procs[i].isDone()) {
 				allDone = false;
 				break;
 			}
@@ -27,7 +29,7 @@ public class Scheduler {
 		
 		int next = this.random.nextInt(procs.length);
 		
-		while (procs[next].done) {
+		while (procs[next].isDone()) {
 			next = this.random.nextInt(procs.length);
 		}
 		

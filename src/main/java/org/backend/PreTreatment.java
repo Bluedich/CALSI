@@ -6,15 +6,10 @@ import bsh.EvalError;
 import bsh.Interpreter;
 
 public class PreTreatment {
-	// The original source code as inputed by the user
 	private String source;
-	// Treated lines of code to be executed by the processes
 	private String preTreatedSource;
-	// The code that needs to be run upon initialization of each process.
-	// It is important that it does not contain shared variable initialization, as
-	// the latter is done
-	// during pre-treatment.
 	private String initialisationBlock;
+
 	private Variable[] sharedVars;
 	private Variable[] localVars;
 

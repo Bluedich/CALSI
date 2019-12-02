@@ -9,14 +9,19 @@ public class Process {
 	String[] sourceCode;
 	int currentLine;
 	Interpreter inter;
-	public boolean done;
+	private boolean done;
 
-	public Process(int index, PreTreatment preTreatment) throws EvalError, BadSourceCodeException {
+	public Process(int index, PreTreatment preTreatment) throws BackEndException {
 	
 		this.inter = new Interpreter();
 
 		// Reserved variables
-		this.inter.set("i", index);
+		try {
+			this.inter.set("i", index);
+		} catch (EvalError e1) {
+			e1.printStackTrace();
+			throw new RipException("EvalError when setting index variable (i).");
+		}
 		
 		// Execution of the initialization block (imports, and variable declarations)
 		try {
@@ -88,9 +93,15 @@ public class Process {
 			localVars[i].update(this.inter.get(localVars[i].getName()));
 		}
 		
-		//for (int i = 0; i < localVars.length; ++i) {
-		//	System.out.print(" name: " + localVars[i].getName() + " type: " + localVars[i].getType() + " value: " + localVars[i].getObj());
-		//}
+		System.out.print("Local vars :");
+		for (int i = 0; i < localVars.length; ++i) {
+			System.out.print(" name: " + localVars[i].getName() + " value: " + localVars[i].getObj());
+		}
+		System.out.println();
+		System.out.print("Shared vars :");
+		for (int i = 0; i < Process.sharedVars.length; ++i) {
+			System.out.print(" name: " + Process.sharedVars[i].getName() + " value: " + Process.sharedVars[i].getObj());
+		}
 
 		if (this.currentLine >= this.sourceCode.length) {
 			this.done = true;
@@ -99,6 +110,10 @@ public class Process {
 
 	public static void setSharedVars(PreTreatment preTreatment) {
 		Process.sharedVars = preTreatment.getSharedVars();
+	}
+	
+	public Boolean isDone() {
+		return done;
 	}
 
 }
