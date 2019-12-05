@@ -13,6 +13,9 @@ public class PreTreatment {
 	private Variable[] sharedVars;
 	private Variable[] localVars;
 
+	static String[] blocks = {"while", "if", "for", "do"}; //possible blocks 
+	static Transformation trans; 
+	
 	public PreTreatment(String source) throws BadSourceCodeException {
 		this.source = source;
 		preTreat();
@@ -21,10 +24,8 @@ public class PreTreatment {
 	private void preTreat() throws BadSourceCodeException {
 		String lines[] = source.split("\\r?\\n");
 		removeComments(lines); // If the code contains '// ...' comments, they are removed
-		int startOfCode = preTreatInitialisationBlocks(lines);
-		// We don't want the initialization blocks in the code the processes will run
-		String[] linesWithoutInitBlocks = Arrays.copyOfRange(lines, startOfCode, lines.length);
-		preTreatedSource = preTreatWhile(linesWithoutInitBlocks);
+		preTreatInitialisationBlocks(lines);
+		preTreatedSource = preTreatment(source);
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class PreTreatment {
 	 *         process
 	 * @throws BadSourceCodeException
 	 */
-	private int preTreatInitialisationBlocks(String[] lines) throws BadSourceCodeException {
+	private void preTreatInitialisationBlocks(String[] lines) throws BadSourceCodeException {
 		// We extract the 4 initialization blocks from the source code
 		int[] blockIndexes = getBlockIndexes(lines);
 		String[] importBlock = Arrays.copyOfRange(lines, blockIndexes[0], blockIndexes[1]);
@@ -75,8 +76,6 @@ public class PreTreatment {
 		initSharedVars(blockIndexes[4], sharedVarInitBlock, interpreter);
 		declareLocalVars(blockIndexes[6], localVarDecBlock, interpreter);
 
-		// Start of code is the line after the last empty line of the code blocks
-		return blockIndexes[7] + 1;
 	}
 
 	/**
@@ -217,33 +216,6 @@ public class PreTreatment {
 		return line.split("\\s+")[1];
 	}
 
-	private String preTreatWhile(String[] lines) {
-
-		int whileLine = 0, closeLine = 0;
-		String cond = null;
-
-		for (int i = 0; i < lines.length; ++i) {
-
-			if (lines[i].contains("while")) {
-				whileLine = i;
-				cond = lines[i].substring(lines[i].indexOf('(') + 1, lines[i].indexOf(')'));
-			}
-
-			if (lines[i].contains("}"))
-				closeLine = i;
-		}
-
-		lines[whileLine] = "goto ( !(" + cond + "), " + Integer.toString(closeLine + 1) + ");";
-		lines[closeLine] = "goto (true, " + Integer.toString(whileLine) + ");";
-
-		String result = "";
-
-		for (int i = 0; i < lines.length; i++) {
-			result = result + lines[i] + "\n";
-		}
-		return result;
-	}
-
 	public void testPreTreatment() {
 		for (int i = 0; i < sharedVars.length; i++) {
 			//System.out.println();
@@ -269,4 +241,212 @@ public class PreTreatment {
 		return localVars.clone();
 	}
 
+	//new functions
+	
+	public static String preTreatment(String source) throws BadSourceCodeException { 
+		String sourceCode[];
+		String block;
+		
+		sourceCode = source.split("\\r?\\n");
+		
+		trans = new Transformation(sourceCode.clone(), sourceCode.length);
+		
+		
+		block = getBlockString(trans.code);
+
+		while( block != "none" ) {
+			
+			int line = getBlockLine(trans.code);
+			switch(block) {
+			case "while":
+				preTreatWhile(line);
+				break;
+			case "if":
+				preTreatIf(line);
+				break;
+			case "for":
+				
+				break;
+			case "do":
+				preTreatDoWhile(line);
+				break;
+			}
+		
+			block = getBlockString(trans.code);
+		}
+		
+		
+		String result = "";
+		
+		for(int i=0; i<trans.code.length; i++) {
+			result = result + trans.code[i] + "\n";
+		}
+		return result;
+	}
+	
+	private static int getBlockLine(String[] code) {
+		String blockString;
+		
+		for(int i=0; i<code.length; ++i) {
+			
+			blockString = containBlock(code[i]);
+			if( blockString != "" ) {
+				return i;
+			}
+			
+		}
+		return -1;
+	}
+	
+	private static String getBlockString(String[] code) {
+		String blockString;
+		
+		for(int i=0; i<code.length; ++i) {
+			
+			blockString = containBlock(code[i]);
+			if( blockString != "" ) {
+				return blockString;
+			}
+			
+		}
+		return "none";
+	}
+	
+	
+	//returns the end line of a block 
+	private static Integer getBlockEnd(String[] code, Integer start_line) {
+		
+		Integer start = start_line;
+		
+		Integer p = 1;
+		Integer i  = start;
+		
+		while(p != 0 && i<code.length) {
+			i++;
+			if(code[i].contains("}"))
+				p--;
+			else if(code[i].contains("{"))
+				p++;	
+		}
+		
+		return i;
+	}
+	
+	//if String line contains block, returns block type, else returns ""
+	private static String containBlock(String line){
+		for(int i=0; i<blocks.length; ++i) {
+			if(line.contains(blocks[i]))
+				return blocks[i];
+		}
+		return "";
+	}
+
+	public static void preTreatWhile(int line) {
+		
+		String lines[] = trans.code;
+		
+		int whileLine = line;
+		int closeLine = getBlockEnd(lines, whileLine);
+		
+		String cond = lines[whileLine].substring(lines[whileLine].indexOf('(')+1, lines[whileLine].lastIndexOf(')'));
+		
+		lines[whileLine] = "goto ( !(" + cond + "), " + Integer.toString(closeLine+1) + ");";
+		lines[closeLine] = "goto (true, " + Integer.toString(whileLine) + ");";
+	
+	}
+	
+	public static void preTreatIf(int line) throws BadSourceCodeException {
+	    
+	    String lines[] = trans.code;
+	    
+	    int ifLine = line;
+	    int elseLine = getBlockEnd(lines, ifLine);
+	    int closeLine = getBlockEnd(lines, elseLine);
+	    
+	    trans.code = mergeArrays(Arrays.copyOfRange(lines, 0, closeLine), Arrays.copyOfRange(lines, closeLine+1, lines.length));
+	    
+	    String cond = lines[ifLine].substring(lines[ifLine].indexOf('(')+1, lines[ifLine].lastIndexOf(')'));
+	    trans.code[ifLine] = "goto (" + cond + ", " + Integer.toString(elseLine+1) + ");";
+	    trans.code[elseLine] = "goto (true, " + Integer.toString(closeLine) + ");";
+	    
+		Integer[] mapping = new Integer[trans.code.length];
+		for(int i=0; i<closeLine; ++i) {
+			mapping[i] = i;
+		}
+		for(int i=closeLine; i<trans.code.length; ++i) {
+			mapping[i] = i+1;
+		}
+		
+		correctGotos(ifLine, closeLine, mapping);
+
+		trans.mapping = mapping;
+	    
+	  }
+	
+	public static void preTreatDoWhile(int line) throws BadSourceCodeException {
+		
+		String lines[] = trans.code; 
+		
+		int startLine = line; 
+		int closeLine = getBlockEnd(lines, startLine);
+		
+		String cond = lines[closeLine].substring(lines[closeLine].indexOf('(')+1, lines[closeLine].lastIndexOf(')'));
+		
+		String before[] = Arrays.copyOfRange(lines, 0, startLine);
+		String rest[] = Arrays.copyOfRange(lines, startLine+1, trans.code.length);
+		
+		trans.code = mergeArrays(before, rest);
+		trans.code[closeLine - 1] = "goto ( (" + cond + "), " + Integer.toString(startLine) + ");";
+		
+		Integer[] mapping = new Integer[trans.code.length];
+		for(int i=0; i<startLine; ++i) {
+			mapping[i] = i;
+		}
+		for(int i=startLine; i<trans.code.length; ++i) {
+			mapping[i] = i+1;
+		}
+		
+		correctGotos(startLine, closeLine, mapping);
+
+		trans.mapping = mapping;
+		
+	}
+	
+	public static void correctGotos(int start, int end, Integer[] mapping) throws BadSourceCodeException {
+		for(int i=0; i<mapping.length; ++i) {
+			if(i >= start && i < end)
+				continue;
+			
+			if(!trans.code[i].contains("goto"))
+				continue;
+			
+			Integer toLine = Integer.parseInt(trans.code[i].substring(trans.code[i].indexOf(',')+1, trans.code[i].lastIndexOf(')')).strip());
+			toLine = indexOf(mapping, toLine);
+			trans.code[i] = trans.code[i].substring(0, trans.code[i].indexOf(',') + 1) + " " + toLine.toString() + ");";
+			
+		}
+	}
+	
+	public static Integer indexOf(Integer[] tab, Integer a) throws BadSourceCodeException {
+		for(int i=0; i< tab.length; ++i) {
+			if(tab[i] == a)
+				return i;
+		}
+		throw new BadSourceCodeException("Badly formated source code.");
+	}
+	
+	
+	public static String [] mergeArrays(String[] array1, String[] array2) {
+		
+		int len1 = array1.length;
+		int len2 = array2.length; 
+		
+		String[] mergedArray = new String[len1 + len2];
+		
+		System.arraycopy(array1, 0, mergedArray, 0, len1);
+		System.arraycopy(array2, 0, mergedArray, len1, len2);
+		
+		return mergedArray;
+	}
+	
 }
