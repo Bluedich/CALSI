@@ -1,0 +1,12 @@
+This is a list of operation that you can made on shared variable. 
+This list is exhaustive of what our program can made and you cannot do any other operation with shared variable.
+
+	1) .read()			: Return the value of the shared register
+	2) .write(x)		: Write x in the shared register
+	
+	3) .update(x)		: Write x in the shared array at the position i (i=index of the processus)
+	4) .snapshot()		: Return the value of the shared array
+	
+	5) .enqueue(x)		: Add the value x on queue of the shared queue
+	6) .dequeue()		: Return and removed the value at the tail of the shared queue
+	
