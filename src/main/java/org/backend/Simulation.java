@@ -2,6 +2,7 @@ package org.backend;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.tools.Tools;
 import bsh.EvalError;
@@ -17,11 +18,14 @@ public class Simulation {
 	private Process processes[];
 	private Scheduler scheduler;
 	private PreTreatment preTreatment;
+	private ArrayList<String> executionOrderHistory;
 
 	public Simulation(SimulationBuilder simulationBuilder) throws BackEndException {
 		this.sourceCodeFileName = simulationBuilder.sourceCodeFileName;
 		this.numberOfProcesses = simulationBuilder.numberOfProcesses;
 		this.schedulerType = simulationBuilder.schedulerType;
+
+		this.executionOrderHistory = new ArrayList<String>();
 
 		initSimulation();
 
@@ -39,16 +43,16 @@ public class Simulation {
 
 	public void nextStep() throws BackEndException {
 		int i = scheduler.getNext();
+		nextStep(i);
+	}
+
+	public void nextStep(int processId) throws RipException {
 		try {
-			processes[i].oneStep();
+			processes[processId].oneStep();
 		} catch (EvalError e) {
 			e.printStackTrace();
 			throw new RipException("EvalError when executing next step");
 		}
-	}
-
-	public void nextStep(int processId) {
-		// TODO
 	}
 
 	public Infos getInfos() {

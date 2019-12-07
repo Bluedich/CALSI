@@ -1,0 +1,11 @@
+When you write your code you have to respect the following syntax, you can find an example in the file sampleCode.txt
+Before your code, your text file must be compose of three compact blocks without any blank line.
+	1)	If you have import to made you have to make them in the beginning of the file, before the block
+	2)	The first block is there for the Shared Variable declaration
+	3)	The second block is there for Shared Variable initialisation
+	4)	The third block is there for Local Variable declaration
+	5)	Then you can write the code of your algorithm
+
+When you write you code you have to respect different rules:
+	1)	You only can made 1 atomic operation per line
+	2)	When you access a shared variable you have to use a specific method

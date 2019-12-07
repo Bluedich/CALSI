@@ -12,7 +12,6 @@ public class Process {
 	private boolean done;
 
 	public Process(int index, PreTreatment preTreatment) throws BackEndException {
-	
 		this.inter = new Interpreter();
 
 		// Reserved variables
@@ -40,10 +39,6 @@ public class Process {
 
 		this.currentLine = 0;
 		this.done = false;
-	}
-
-	public void treatFile() {
-
 	}
 
 	public void treatGoto() throws EvalError {

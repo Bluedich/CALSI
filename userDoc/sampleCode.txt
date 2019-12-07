@@ -1,0 +1,22 @@
+import example
+import exemple2
+
+// Shared variables declaration
+Integer turn;
+Boolean[] flag;
+
+// Shared variables initialization
+turn = new Integer(0);
+flag = new Boolean[2];
+flag[0] = false;
+flag[1] = false;
+
+// Local variables declaration
+int j;
+boolean a;
+int b;
+
+// Algorithm
+// You can write there you code
+//
+// And use blank lines
