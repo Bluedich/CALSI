@@ -28,6 +28,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.File;
 import java.util.List;
+
+import org.backend.BackEndException;
+import org.backend.Infos;
+import org.backend.Simulation;
+import org.backend.SimulationBuilder;
+
 import javafx.scene.control.TextArea;
 import java.io.*;
 import javafx.scene.control.ChoiceBox;
@@ -45,7 +51,7 @@ import javafx.scene.control.ListView;
 public class FXMLController {
 	
     ObservableList<String> content1 = FXCollections.observableArrayList(
-    		"e", "d");
+    		"e", "d","f","g","h","i","j","k","l");
     ObservableList<String> content2 = FXCollections.observableArrayList(
     		"3", "7");
     ObservableList<String> content3 = FXCollections.observableArrayList(
@@ -66,7 +72,6 @@ public class FXMLController {
     private Button buttonPlusStep;
     @FXML
     private Button buttonMinusStep;
-    
     @FXML
     private ListView<String> listView1;
     @FXML
@@ -89,7 +94,11 @@ public class FXMLController {
     private TextArea textAreaOriginalCode;
     
     @FXML
-    private TextField textFieldSpeed;   
+    private TextField textFieldSpeed; 
+    
+    private SimulationBuilder simulationBuilder;
+    private Simulation simulation;
+    private Infos infos;
     
 
 	
@@ -165,5 +174,16 @@ public class FXMLController {
 			System.out.print("cancel"+"\n");
 		}
 		
+    }
+    public void newexecution() throws BackEndException {
+		simulationBuilder = new SimulationBuilder();
+		simulation = simulationBuilder
+			.withSourceCodeFromFile("tests/test.txt")
+			.withNumberOfProcesses(2)
+			.withScheduler("random")
+			.build();
+		
+		infos = simulation.getInfos();
+		System.out.print(infos.isDone());
     }
 }

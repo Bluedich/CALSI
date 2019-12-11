@@ -52,7 +52,7 @@
                <children>
                   <Label layoutX="118.0" layoutY="10.0" text="Scheduling Policy " />
                   <ChoiceBox fx:id="choiceBoxScheduling" layoutX="214.0" layoutY="6.0" prefWidth="150.0" />
-                  <Button fx:id="buttonNewExecution" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="96.0" text="New Execution" />
+                  <Button fx:id="buttonNewExecution" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" onAction="#newexecution" prefHeight="25.0" prefWidth="96.0" text="New Execution" />
                   <Label layoutX="379.0" layoutY="10.0" text="Speed" />
                   <Slider fx:id="sliderSpeed" layoutX="423.0" layoutY="12.0" onMouseClicked="#slidert" onMouseDragged="#slidert" prefHeight="14.0" prefWidth="89.0" />
                   <TextField fx:id="textFieldSpeed" layoutX="512.0" layoutY="6.0" prefHeight="25.0" prefWidth="51.0" text="50" />
