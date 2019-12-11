@@ -1,5 +1,10 @@
 package org.backend;
 
+/**
+ * Data class storing information about a variable in easy to use formats.
+ * @author Hugo
+ *
+ */
 public class VariableInfo {
 	private String name;
 	private String value;

@@ -1,5 +1,10 @@
 package org.backend;
 
+/**
+ * Builder pattern for creating a new simulation.
+ * @author Hugo
+ *
+ */
 public class SimulationBuilder {
 	String sourceCodeFileName;
 	int numberOfProcesses;

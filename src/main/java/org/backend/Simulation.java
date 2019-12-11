@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import org.tools.Tools;
 import bsh.EvalError;
 
+/**
+ * Manager class for the simulation.
+ * @author Hugo
+ *
+ */
 public class Simulation {
 	private Infos infos;
 
