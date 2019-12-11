@@ -1,36 +1,36 @@
-import java.lang.Math; 					// All import have to be made without any blank line
+import java.lang.Math; 						//	All import have to be made without any blank line
 
-// // Shared variables declaration		// All declaration have to be made without any blank line
+// // Shared variables declaration			//	All declaration have to be made without any blank line
 Integer turn;
 Boolean[] flag;
 
-// // Shared variables initialization	// All initialization have to be made without any blank line
+// // Shared variables initialization		//	All initialization have to be made without any blank line
 turn = new Integer(0);
 flag = new Boolean[2];
 flag[0] = false;
 flag[1] = false;
 
-// // Local variables declaration		// All declaration have to be made without any blank line
+// // Local variables declaration			//	All declaration have to be made without any blank line
 int j;
 boolean a;
 int b;
 
-// // Algorithm							// You can write your algorithm using Java Syntax, blank line are allowed
-// You can write there you code			// You only can access one variable operation at a time
-//
-// And use blank lines
+// // Algorithm								//	You can write your algorithm using Java Syntax, blank line are allowed
+// 											//	You only can access one variable operation at a time
+// 
 
-// There for example, an algorithm Petreson
+// // There for example, Petreson algorithm 
 j = (i+1) % 2;
 flag[i] = true;
 turn = j;
+a = flag[j];								// All operation made in one line are atomic
+b = turn;										
+											//	Blank line are allowed
+while ( a == true && b == j) {				//	The opening accolade "{" have to be in the same line than the condition
 a = flag[j];
 b = turn;
-
-while ( a == true && b == j) {
-a = flag[j];
-b = turn;
-}
+}											//	The closing accolade "}" have to be alone on the line
+// critical section 
 1
 1
 1
@@ -39,4 +39,5 @@ b = turn;
 1
 1
 1
+// end of critical section
 flag[i] = false;
