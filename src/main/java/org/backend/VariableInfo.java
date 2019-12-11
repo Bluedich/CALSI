@@ -13,23 +13,23 @@ public class VariableInfo {
 
 	/**
 	 * Get the name of the variable.
-	 * @return The name of the variable
+	 * @return the name of the variable
 	 */
 	public String getName() {
 		return name;
 	}
 	
 	/**
-	 * Get the value of the variable
-	 * @return The value of the variable, represented as a String
+	 * Get the value of the variable.
+	 * @return the value of the variable, converted to a String
 	 */
 	public String getValue() {
 		return value;
 	}
 	
 	/**
-	 * Get the type of the variable
-	 * @return The type of the variable, represented as a String
+	 * Get the type of the variable.
+	 * @return the type of the variable, converted to a String
 	 */
 	public String getType() {
 		return type;

@@ -41,11 +41,24 @@ public class Simulation {
 		// TODO
 	}
 
-	public void nextStep() throws BackEndException {
+	/**
+	 * Execute one step of one process, chosen by the scheduler.
+	 * 
+	 * @throws BadSourceCodeException if there is a problem with the source code
+	 *                                executed during that step
+	 */
+	public void nextStep() throws BadSourceCodeException {
 		int i = scheduler.getNext();
 		nextStep(i);
 	}
 
+	/**
+	 * Execute one step of the specified process.
+	 * 
+	 * @param processId the id of the specified process
+	 * @throws BadSourceCodeException if there is a problem with the source code
+	 *                                executed during that step
+	 */
 	public void nextStep(int processId) throws BadSourceCodeException {
 		try {
 			processes[processId].oneStep();
@@ -56,6 +69,14 @@ public class Simulation {
 		executionOrderHistory.add(processId);
 	}
 
+	/**
+	 * Get an Infos instance, which has several method giving various information on
+	 * the current and past state of the simulation. Mainly for use by the GUI/front
+	 * end, and intended as the only interface between the front end and back end
+	 * data.
+	 * 
+	 * @return the infos
+	 */
 	public Infos getInfos() {
 		return infos;
 	}

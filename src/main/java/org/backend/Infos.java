@@ -11,7 +11,7 @@ public class Infos {
 	
 	/**
 	 * Get the id of the last process that was executed.
-	 * @return An int corresponding to the id of the last executed process
+	 * @return an int corresponding to the id of the last executed process
 	 */
 	public int getIdOfLastExecutedProcess() {
 		ArrayList<Integer> executionOrderHistory = simulation.getExecutionOrderHistory();
@@ -20,7 +20,7 @@ public class Infos {
 	
 	/**
 	 * Get the line of the last executed pre-treated line of code. For debugging purposes, not intended to be displayed to the user.
-	 * @return A string of the executed line
+	 * @return a string of the executed line
 	 */
 	public String getExecutedPreTreatedLine() {
 		Process executedProcess = simulation.getProcesses()[getIdOfLastExecutedProcess()];
@@ -29,8 +29,8 @@ public class Infos {
 	}
 	
 	/**
-	 * Get info about the shared variables
-	 * @return Info about the shared variables represented as a VariableInfo array.
+	 * Get info about the shared variables.
+	 * @return infos about the shared variables.
 	 */
 	public VariableInfo[] getSharedVariables() {
 		Variable sharedVars[] = Process.getSharedVars();
