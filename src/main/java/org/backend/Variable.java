@@ -1,9 +1,16 @@
 package org.backend;
 
+import java.util.Arrays;
+
 public class Variable {
+	protected String name;
+	protected boolean isArray;
+	protected Type type;
+	protected Object obj;
+
 	public enum Type {
 
-		INTEGER, BOOLEAN, FLOAT, DOUBLE, UNDEFINED;
+		INTEGER, BOOLEAN, FLOAT, DOUBLE, NULL;
 
 		static protected final Type getType(Object obj) {
 			if (obj instanceof Integer || obj instanceof Integer[]) {
@@ -15,7 +22,7 @@ public class Variable {
 			} else if (obj instanceof Double || obj instanceof Double[]) {
 				return Type.DOUBLE;
 			} else {
-				return Type.UNDEFINED;
+				return Type.NULL;
 			}
 		}
 	}
@@ -29,7 +36,11 @@ public class Variable {
 
 	public Variable(String name) {
 		this.name = name;
+		this.obj = null;
+		this.type = Type.NULL;
+		this.isArray = false;
 	}
+
 	public void update(Object obj) {
 		if (obj != null) {
 			this.obj = obj;
@@ -46,20 +57,49 @@ public class Variable {
 		return this.isArray;
 	}
 
-	public final Type getType() {
-		return this.type;
-	}
-
 	public final Object getObj() {
 		return this.obj;
 	}
 
-	public final void setObj(Object obj) {
-		this.obj = obj;
+	public String getType() {
+		String typeAsString = new String();
+		switch (type) {
+			case INTEGER:
+				typeAsString += "Integer";
+				break;
+			case BOOLEAN:
+				typeAsString += "Boolean";
+				break;
+			case FLOAT:
+				typeAsString += "Float";
+				break;
+			case DOUBLE:
+				typeAsString += "Double";
+				break;
+			case NULL:
+				typeAsString += "NULL";
+				break;
+			default:
+				typeAsString += "Unrecognized type";
+		}
+		
+		if (isArray) {
+			typeAsString += "[]";
+		}
+		
+		return typeAsString;
 	}
-
-	protected String name;
-	protected boolean isArray;
-	protected Type type;
-	protected Object obj;
+	
+	public String getValue() {		
+		if (isArray) {
+			// Convert to a readable string potentially recursive arrays
+			return Arrays.deepToString((Object[]) obj);
+		}
+		
+		if (type == Type.NULL) {
+			return "";
+		}
+		
+		return obj.toString();
+	}
 }

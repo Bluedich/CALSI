@@ -24,4 +24,4 @@ run {
 }
 
 //A changer avec notre main class
-mainClassName = 'org.frontend.MainApp'
+mainClassName = 'org.backend.Main'
