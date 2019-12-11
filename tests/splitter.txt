@@ -1,26 +1,31 @@
 import java.lang.Math; 
+import java.lang.String;
 
 // Shared variables declaration
-String door;
+String bob;
 Integer idRegister;
 
 // Shared variables initialization
 idRegister = -1;
-door = "OPEN";
+bob = "OPEN";
+
 
 // No local variables declaration
+String direction;
+
 
 // Splitter Algorithm
 idRegister = i;
-If (door == "CLOSED"){
-	return "right";
+if (bob.equals("CLOSED")){
+	direction = "Right";
 }
-Else {
-	door = "CLOSED";
-	If (idRegister == i) {
-		return "stop";
+else {
+	bob = "CLOSED";
+	if (idRegister == i) {
+		direction = "Stop";
 	}
-	Else {
-		return "down";
+	else {
+		direction = "Down";
 	}
 }
+
