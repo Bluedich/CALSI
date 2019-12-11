@@ -18,14 +18,14 @@ public class Simulation {
 	private Process processes[];
 	private Scheduler scheduler;
 	private PreTreatment preTreatment;
-	private ArrayList<String> executionOrderHistory;
+	private ArrayList<Integer> executionOrderHistory;
 
 	public Simulation(SimulationBuilder simulationBuilder) throws BackEndException {
 		this.sourceCodeFileName = simulationBuilder.sourceCodeFileName;
 		this.numberOfProcesses = simulationBuilder.numberOfProcesses;
 		this.schedulerType = simulationBuilder.schedulerType;
 
-		this.executionOrderHistory = new ArrayList<String>();
+		this.executionOrderHistory = new ArrayList<Integer>();
 
 		initSimulation();
 
@@ -46,13 +46,14 @@ public class Simulation {
 		nextStep(i);
 	}
 
-	public void nextStep(int processId) throws RipException {
+	public void nextStep(int processId) throws BadSourceCodeException {
 		try {
 			processes[processId].oneStep();
 		} catch (EvalError e) {
 			e.printStackTrace();
-			throw new RipException("EvalError when executing next step");
+			throw new BadSourceCodeException("EvalError when executing next step");
 		}
+		executionOrderHistory.add(processId);
 	}
 
 	public Infos getInfos() {
@@ -87,6 +88,10 @@ public class Simulation {
 			e.printStackTrace();
 			throw new RipException("IO error while attempting to read from source code file.");
 		}
+	}
+
+	public ArrayList<Integer> getExecutionOrderHistory() {
+		return executionOrderHistory;
 	}
 
 	public Process[] getProcesses() {

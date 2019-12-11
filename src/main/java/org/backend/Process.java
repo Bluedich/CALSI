@@ -4,11 +4,11 @@ import bsh.EvalError;
 import bsh.Interpreter;
 
 public class Process {
-	static Variable[] sharedVars;
-	Variable[] localVars;
-	String[] sourceCode;
-	int currentLine;
-	Interpreter inter;
+	private static Variable[] sharedVars;
+	private Variable[] localVars;
+	private String[] sourceCode;
+	private int currentLine;
+	private Interpreter inter;
 	private boolean done;
 
 	public Process(int index, PreTreatment preTreatment) throws BackEndException {
@@ -80,7 +80,7 @@ public class Process {
 
 		// After the step, the shared variables are updated so their value can be shared between the processes
 		for (int i = 0; i < Process.sharedVars.length; ++i) {
-			Process.sharedVars[i].setObj(this.inter.get(Process.sharedVars[i].getName()));
+			Process.sharedVars[i].update(this.inter.get(Process.sharedVars[i].getName()));
 		}
 		
 		// Local variables are also updated for the GUI
@@ -88,16 +88,6 @@ public class Process {
 			localVars[i].update(this.inter.get(localVars[i].getName()));
 		}
 		
-		System.out.print("Local vars :");
-		for (int i = 0; i < localVars.length; ++i) {
-			System.out.print(" name: " + localVars[i].getName() + " value: " + localVars[i].getObj());
-		}
-		System.out.println();
-		System.out.print("Shared vars :");
-		for (int i = 0; i < Process.sharedVars.length; ++i) {
-			System.out.print(" name: " + Process.sharedVars[i].getName() + " value: " + Process.sharedVars[i].getObj());
-		}
-
 		if (this.currentLine >= this.sourceCode.length) {
 			this.done = true;
 		}
@@ -107,8 +97,25 @@ public class Process {
 		Process.sharedVars = preTreatment.getSharedVars();
 	}
 	
+	public static Variable[] getSharedVars() {
+		return Process.sharedVars;
+	}
+	
 	public Boolean isDone() {
 		return done;
+	}
+	
+	public int getCurrentLine() {
+		return currentLine;
+	}
+	
+	public String[] getSourceCode() {
+		return sourceCode;
+	}
+	
+	// TODO For trialing purposes. Method should be removed or modified in the future
+	public String[] getVarLst() {
+		return inter.getNameSpace().getVariableNames();
 	}
 
 }

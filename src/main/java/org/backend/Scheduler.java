@@ -29,11 +29,6 @@ public class Scheduler {
 			next = this.random.nextInt(procs.length);
 		}
 		
-		int line = procs[next].currentLine;
-		String str = "Proc " + next + ": " + line + " => " + procs[next].sourceCode[procs[next].currentLine];
-		
-		System.out.println(str);
-		
 		return next;
 	}
 }
