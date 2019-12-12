@@ -25,9 +25,9 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#btnfile" text="Open…" />
+            <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open…" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" onAction="#savefile" text="Save" />
+            <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
             <MenuItem mnemonicParsing="false" text="Save As…" />
           </items>
         </Menu>
@@ -52,11 +52,11 @@
                <children>
                   <Label layoutX="118.0" layoutY="10.0" text="Scheduling Policy " />
                   <ChoiceBox fx:id="choiceBoxScheduling" layoutX="214.0" layoutY="6.0" prefWidth="150.0" />
-                  <Button fx:id="buttonNewExecution" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" onAction="#newexecution" prefHeight="25.0" prefWidth="96.0" text="New Execution" />
+                  <Button fx:id="buttonNewExecution" layoutX="14.0" layoutY="6.0" mnemonicParsing="false" onAction="#newExecution" prefHeight="25.0" prefWidth="96.0" text="New Execution" />
                   <Label layoutX="379.0" layoutY="10.0" text="Speed" />
                   <Slider fx:id="sliderSpeed" layoutX="423.0" layoutY="12.0" onMouseClicked="#slidert" onMouseDragged="#slidert" prefHeight="14.0" prefWidth="89.0" />
                   <TextField fx:id="textFieldSpeed" layoutX="512.0" layoutY="6.0" prefHeight="25.0" prefWidth="51.0" text="50" />
-                  <Button fx:id="buttonDoSteps" layoutX="760.0" layoutY="7.0" mnemonicParsing="false" text="Do steps" />
+                  <Button fx:id="buttonDoSteps" layoutX="760.0" layoutY="7.0" mnemonicParsing="false" onAction="#controllerDoSteps" text="Do steps" />
                   <TextField fx:id="textFieldNumberOfSteps" layoutX="830.0" layoutY="7.0" prefHeight="25.0" prefWidth="86.0" text="10" />
                   <Label layoutX="569.0" layoutY="10.0" text="steps per second" />
                   <Button fx:id="buttonStart" layoutX="665.0" layoutY="7.0" mnemonicParsing="false" text="Start" />

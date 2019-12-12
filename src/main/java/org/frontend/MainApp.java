@@ -16,11 +16,10 @@ public class MainApp extends Application {
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         
-        stage.setTitle("JavaFX and Gradle");
+        stage.setTitle("CALSI");
         stage.setScene(scene);
         System.out.print("main class");
-        stage.show();
-        
+        stage.show();        
     }
 
     public static void main(String[] args) {
