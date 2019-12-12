@@ -189,7 +189,7 @@ public class FXMLController {
 		else {
 			System.out.print("cancel"+"\n");
 		}
-		System.out.println("chemin : " + fichiercode);
+		
 
 	}
 
@@ -206,14 +206,13 @@ public class FXMLController {
 			System.out.print("saved\n");
 		}catch (IOException e) {
 			e.printStackTrace();
-		}
+		}	
 		
 		simulation = simulationBuilder
 				.withSourceCodeFromFile(fichiercode)
 				.withNumberOfProcesses(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()))
 				.withScheduler("random")
 				.build();
-
 		infos = simulation.getInfos();
 		System.out.print(infos.isDone());
 	}
