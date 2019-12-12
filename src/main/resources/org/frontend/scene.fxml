@@ -120,7 +120,7 @@
                                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                              <children>
                                                 <Label layoutX="14.0" layoutY="14.0" text="Number of processes" />
-                                                <TextField fx:id="textFieldNumberOfProcessesRandom" layoutX="14.0" layoutY="39.0" />
+                                                <TextField fx:id="textFieldNumberOfProcessesRandom" layoutX="14.0" layoutY="39.0" text="5" />
                                              </children>
                                           </AnchorPane>
                                     </content>
