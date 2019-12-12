@@ -1,1 +1,36 @@
-Ici votre code
+import java.lang.Math; 
+
+// Shared variables declaration
+Integer turn;
+Boolean[] flag;
+
+// Shared variables initialization
+turn = new Integer(0);
+flag = new Boolean[2];
+flag[0] = false;
+flag[1] = false;
+
+// Local variables declaration
+int j;
+boolean a;
+int b;
+
+// Algorithm
+j = (i+1) % 2;
+flag[i] = true;
+turn = j;
+a = flag[j];
+b = turn;
+while ( a == true && b == j) {
+a = flag[j];
+b = turn;
+}
+1
+1
+1
+1
+1
+1
+1
+1
+flag[i] = false;

@@ -195,10 +195,9 @@ public class FXMLController {
 
 	public void newExecution() throws BackEndException {
 		simulationBuilder = new SimulationBuilder();
-		File sourceFile = new File("..\\..\\tests\\source.txt");		
-		fichiercode= sourceFile.getAbsolutePath();		
+		File sourceFile = new File("/tests/source.txt");			
 		code=textAreaOriginalCode.getText();
-		try (FileWriter fw = new FileWriter(fichiercode)){
+		try (FileWriter fw = new FileWriter("tests/source.txt")){
 			BufferedWriter bw = new BufferedWriter(fw);
 			bw.write(code);
 			bw.flush();
@@ -217,6 +216,7 @@ public class FXMLController {
 		System.out.print(infos.isDone());
 	}
 
+	
 	public void controllerDoSteps() throws BadSourceCodeException{
 		int count = Integer.parseInt(textFieldNumberOfSteps.getText());
 		while (!infos.isDone() && count>0) {
@@ -225,6 +225,14 @@ public class FXMLController {
 			System.out.println(infos.getIdOfLastExecutedProcess());
 		}
 	}
+	
+	public void controllerPlusStep() throws BadSourceCodeException{
+		if (!infos.isDone()) {
+			simulation.nextStep();
+			System.out.println(infos.getIdOfLastExecutedProcess());
+		}
+	}
+	
 	
 	
 }

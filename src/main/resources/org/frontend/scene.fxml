@@ -61,7 +61,7 @@
                   <Label layoutX="569.0" layoutY="10.0" text="steps per second" />
                   <Button fx:id="buttonStart" layoutX="665.0" layoutY="7.0" mnemonicParsing="false" text="Start" />
                   <Button fx:id="buttonStop" layoutX="712.0" layoutY="7.0" mnemonicParsing="false" text="Stop" />
-                  <Button fx:id="buttonPlusStep" layoutX="922.0" layoutY="7.0" mnemonicParsing="false" text="+ step" />
+                  <Button fx:id="buttonPlusStep" layoutX="922.0" layoutY="7.0" mnemonicParsing="false" onAction="#controllerPlusStep" text="+ step" />
                   <Button fx:id="buttonMinusStep" layoutX="979.0" layoutY="7.0" mnemonicParsing="false" text="- step" />
                </children>
             </Pane>
