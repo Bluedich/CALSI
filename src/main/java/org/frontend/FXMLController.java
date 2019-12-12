@@ -34,6 +34,7 @@ import org.backend.BadSourceCodeException;
 import org.backend.Infos;
 import org.backend.Simulation;
 import org.backend.SimulationBuilder;
+import org.backend.VariableInfo;
 
 import javafx.scene.control.TextArea;
 import java.io.*;
@@ -166,7 +167,7 @@ public class FXMLController {
 		cordo=choiceBoxScheduling.getValue();
 		System.out.print(cordo+"\n");    	
 	}
-	
+
 	public void openFile() {
 		System.out.print("test"+"\n");
 
@@ -189,13 +190,12 @@ public class FXMLController {
 		else {
 			System.out.print("cancel"+"\n");
 		}
-		
+
 
 	}
 
 	public void newExecution() throws BackEndException {
-		simulationBuilder = new SimulationBuilder();
-		File sourceFile = new File("/tests/source.txt");			
+		simulationBuilder = new SimulationBuilder();		
 		code=textAreaOriginalCode.getText();
 		try (FileWriter fw = new FileWriter("tests/source.txt")){
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -206,7 +206,7 @@ public class FXMLController {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}	
-		
+
 		simulation = simulationBuilder
 				.withSourceCodeFromFile(fichiercode)
 				.withNumberOfProcesses(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()))
@@ -216,23 +216,41 @@ public class FXMLController {
 		System.out.print(infos.isDone());
 	}
 
-	
+
 	public void controllerDoSteps() throws BadSourceCodeException{
 		int count = Integer.parseInt(textFieldNumberOfSteps.getText());
 		while (!infos.isDone() && count>0) {
 			count -= 1;
 			simulation.nextStep();
 			System.out.println(infos.getIdOfLastExecutedProcess());
+			System.out.println(infos.getSharedVariables()[1].getName());
 		}
+		updateSharedVariables();
 	}
-	
+
 	public void controllerPlusStep() throws BadSourceCodeException{
 		if (!infos.isDone()) {
 			simulation.nextStep();
 			System.out.println(infos.getIdOfLastExecutedProcess());
+			updateSharedVariables();
 		}
 	}
-	
-	
-	
+
+	public void updateSharedVariables() {
+		content3.remove(0, content3.size());
+		content4.remove(0, content4.size());
+		VariableInfo[] variableInfo = infos.getSharedVariables();
+		for(int i=0;i<variableInfo.length;i++)
+		{
+			if(variableInfo[i] == null)
+			{		  
+				break;
+			}
+			else {
+				content3.addAll(variableInfo[i].getName());
+				content4.addAll(variableInfo[i].getValue());
+			}
+		}
+	}
+
 }
