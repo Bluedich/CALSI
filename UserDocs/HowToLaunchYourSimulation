@@ -1,0 +1,13 @@
+How To Launch Your Simulation.
+
+To launch the execution, first load (or write) your algorithm on the tab "Original Code". To load your algorithm, it's in "File->Open..."
+Make sure this file respect the rules describe in HowToWriteYourCode. 
+Then you have to choose your scheduler policy with "Scheduling Policy". You have the choice between "Random, StepByStep and with File".
+Unless you choose "With file", you have then to specify the number of process in your simulation in "Number of processes" at the right of your code. 
+
+After those settings, you can launch the simulation clicking on "New Execution".
+Once launch, you can use the button "+step" to execute one step. 
+The scheduler will then choose a process and execute a step, all the value of variables will be updated.
+The button "-step" will allow you to go back one step before.
+
+At the end of the simulation you can then save the last execution, "Scheduler->Save last execution". To know more about the format of those file read HowToWriteYourScheduler
