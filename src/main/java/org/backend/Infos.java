@@ -47,13 +47,26 @@ public class Infos {
 	 */
 	public VariableInfo[] getSharedVariables() {
 		Variable sharedVars[] = Process.getSharedVars();
-		VariableInfo sharedVariablesInfos[] = new VariableInfo[sharedVars.length];
-
-		for (int i = 0; i < sharedVars.length; i++) {
-			Variable sharedVar = sharedVars[i];
-			sharedVariablesInfos[i] = new VariableInfo(sharedVar.getName(), sharedVar.getValue(), sharedVar.getType());
+		
+		return VariableArrayToVariableInfoArray(sharedVars);
+	}
+	
+	/**
+	 * Get infos about the local variables of the specified process
+	 * @param processId the id of the specified process
+	 * @return infos about the local variables
+	 */
+	public VariableInfo[] getLocalVariables(int processId) {
+		Process processes[] = simulation.getProcesses();
+		
+		if ( processId > processes.length ) {
+			// If invalid processId, return empty array
+			return new VariableInfo[0];
 		}
-		return sharedVariablesInfos;
+		
+		Variable localVars[] = processes[processId].getLocalVars();
+		
+		return VariableArrayToVariableInfoArray(localVars);
 	}
 
 	// Accessible from package only
@@ -74,5 +87,15 @@ public class Infos {
 			}
 		}
 		return true;
+	}
+	
+	private VariableInfo[] VariableArrayToVariableInfoArray(Variable[] variableArray) {
+		VariableInfo variablesInfos[] = new VariableInfo[variableArray.length];
+
+		for (int i = 0; i < variableArray.length; i++) {
+			Variable sharedVar = variableArray[i];
+			variablesInfos[i] = new VariableInfo(sharedVar.getName(), sharedVar.getValue(), sharedVar.getType());
+		}
+		return variablesInfos;
 	}
 }
