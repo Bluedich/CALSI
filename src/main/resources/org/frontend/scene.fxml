@@ -76,7 +76,7 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <TextArea layoutY="30.0" prefHeight="618.0" prefWidth="143.0" text="P1 P2&#10;&#10;&#10;P3&#10;&#10;P4" />
+                        <TextArea fx:id="lineProc" layoutY="30.0" prefHeight="618.0" prefWidth="143.0" text="P1 P2&#10;&#10;&#10;P3&#10;&#10;P4" />
                      </children>
                   </Pane>
                </children>

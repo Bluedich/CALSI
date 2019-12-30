@@ -27,6 +27,7 @@ import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 
 import org.backend.BackEndException;
@@ -101,6 +102,9 @@ public class FXMLController {
 
 	@FXML
 	private TextArea textAreaOriginalCode;
+	
+	@FXML
+	private TextArea lineProc;
 
 	@FXML
 	private TextField textFieldSpeed; 
@@ -121,6 +125,9 @@ public class FXMLController {
 	private String code="Ici votre code";
 	private String fichiercode="";
 	private String cordo="";
+	private String listProc="";
+	private int nbrofprocess;
+	private int [] processline;
 
 
 
@@ -214,6 +221,7 @@ public class FXMLController {
 				.build();
 		infos = simulation.getInfos();
 		System.out.print(infos.isDone());
+		initalizeProcess(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()));
 	}
 
 	
@@ -222,6 +230,7 @@ public class FXMLController {
 		while (!infos.isDone() && count>0) {
 			count -= 1;
 			simulation.nextStep();
+			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
 			System.out.println(infos.getIdOfLastExecutedProcess());
 		}
 	}
@@ -229,10 +238,36 @@ public class FXMLController {
 	public void controllerPlusStep() throws BadSourceCodeException{
 		if (!infos.isDone()) {
 			simulation.nextStep();
+			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
 			System.out.println(infos.getIdOfLastExecutedProcess());
 		}
 	}
 	
+	public void initalizeProcess(int nbrp){
+		nbrofprocess=nbrp;
+		processline= new int[nbrp];
+		Arrays.fill(processline, 0);
+		updateProcess(0,0);
+	}
 	
+	
+	private static int countLines(String str){
+		   String[] lines = str.split("\r\n|\r|\n");
+		   return  lines.length;
+	}
+	
+	public void updateProcess(int nump,int linep){
+		listProc="";
+		processline[nump]=linep;
+		for (int l = 0; l < countLines(code) ; l++) {
+			for (int i = 0; i < nbrofprocess; i++) {
+				if (l==processline[i]) {
+					listProc=listProc+"P"+Integer.toString(i)+",";
+				}
+			}
+			listProc=listProc+"\n";
+		}
+		lineProc.setText(listProc);
+	}
 	
 }
