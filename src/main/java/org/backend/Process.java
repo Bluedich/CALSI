@@ -101,6 +101,10 @@ public class Process {
 		return Process.sharedVars;
 	}
 	
+	public Variable[] getLocalVars() {
+		return localVars;
+	}
+	
 	public Boolean isDone() {
 		return done;
 	}

@@ -35,6 +35,7 @@ import org.backend.BadSourceCodeException;
 import org.backend.Infos;
 import org.backend.Simulation;
 import org.backend.SimulationBuilder;
+import org.backend.VariableInfo;
 
 import javafx.scene.control.TextArea;
 import java.io.*;
@@ -232,14 +233,34 @@ public class FXMLController {
 			simulation.nextStep();
 			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
 			System.out.println(infos.getIdOfLastExecutedProcess());
+			System.out.println(infos.getSharedVariables()[1].getName());
 		}
+		updateSharedVariables();
 	}
 	
 	public void controllerPlusStep() throws BadSourceCodeException{
 		if (!infos.isDone()) {
 			simulation.nextStep();
-			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
 			System.out.println(infos.getIdOfLastExecutedProcess());
+			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
+			updateSharedVariables();
+		}
+	}
+
+	public void updateSharedVariables() {
+		content3.remove(0, content3.size());
+		content4.remove(0, content4.size());
+		VariableInfo[] variableInfo = infos.getSharedVariables();
+		for(int i=0;i<variableInfo.length;i++)
+		{
+			if(variableInfo[i] == null)
+			{		  
+				break;
+			}
+			else {
+				content3.addAll(variableInfo[i].getName());
+				content4.addAll(variableInfo[i].getValue());
+			}
 		}
 	}
 	
