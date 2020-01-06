@@ -1,0 +1,21 @@
+j = (i+1) % 2;
+flag[i] = true;
+turn = j;
+a = flag[j];
+b = turn;
+do{
+a = flag[j];
+b = turn;
+}while( a == true && b == j)
+
+if(4){
+5
+}else{
+4
+}
+do{
+}while(7);
+1
+2
+3
+flag[i] = false;
