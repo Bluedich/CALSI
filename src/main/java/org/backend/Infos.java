@@ -79,7 +79,7 @@ public class Infos {
 	 * 
 	 * @return true if done, false if not
 	 */
-	public boolean isDone() {
+	public boolean simulationIsDone() {
 		Process processes[] = simulation.getProcesses();
 		for (int i = 0; i < processes.length; i++) {
 			if (!processes[i].isDone()) {
@@ -87,6 +87,20 @@ public class Infos {
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * Check if the specified process has terminated. 
+	 * @param processId the id of the process to be checked for termination
+	 * @return true if terminated, false otherwise
+	 * @throws RipException if the process id specified does not correspond to a process
+	 */
+	public boolean processIsDone(int processId) throws RipException {
+		Process processes[] = simulation.getProcesses();
+		if (processId >= processes.length) {
+			throw new RipException("Can't get termination status for process " + processId + " as it does not exist.");
+		}
+		return processes[processId].isDone();
 	}
 	
 	private VariableInfo[] VariableArrayToVariableInfoArray(Variable[] variableArray) {
