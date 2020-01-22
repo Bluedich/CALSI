@@ -44,7 +44,17 @@ public class BlocksConversion {
 		
 		for(int i=0; i<this.code.size(); i++) {
 			Line l = this.lines.get(code.get(i));
-			result = result + Integer.toString(i) + ") " +  l.getLineCode(code) + "\n";
+			result = result + l.getLineCode(this.code) + "\n";
+		}
+		return result;
+	}
+	
+	public String[] getNewSourceCodeArray() throws BackEndException {
+		String[] result = new String[this.code.size()];
+		
+		for(int i=0; i<this.code.size(); i++) {
+			Line l = this.lines.get(code.get(i));
+			result[i] = l.getLineCode(this.code);
 		}
 		return result;
 	}
