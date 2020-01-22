@@ -103,6 +103,22 @@ public class Infos {
 		return processes[processId].isDone();
 	}
 	
+	/**
+	 * Check if the specified process has crashed. 
+	 * @param processId the id of the process to be checked for termination
+	 * @return true if terminated, false otherwise
+	 * @throws RipException if the process id specified does not correspond to a process
+	 */
+	public boolean processIsCrashed(int processId) throws RipException {
+		Process processes[] = simulation.getProcesses();
+		if (processId >= processes.length) {
+			throw new RipException("Can't get crashed status for process " + processId + " as it does not exist.");
+		}
+		return processes[processId].isCrashed();
+	}
+	
+	
+	
 	private VariableInfo[] VariableArrayToVariableInfoArray(Variable[] variableArray) {
 		VariableInfo variablesInfos[] = new VariableInfo[variableArray.length];
 
