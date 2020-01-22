@@ -9,9 +9,11 @@ public class PreTreatment {
 	private String source;
 	private String preTreatedSource;
 	private String initialisationBlock;
+	private int endOfInitBlocks;
 
 	private Variable[] sharedVars;
 	private Variable[] localVars;
+	
 
 	static String[] blocks = { "while", "if", "for", "do" }; // possible blocks
 	static Transformation trans;
@@ -24,7 +26,7 @@ public class PreTreatment {
 	private void preTreat() throws BadSourceCodeException {
 		String lines[] = source.split("\\r?\\n");
 		removeComments(lines); // If the code contains '// ...' comments, they are removed
-		preTreatInitialisationBlocks(lines);
+		endOfInitBlocks = preTreatInitialisationBlocks(lines);
 		preTreatedSource = preTreatment(source);
 	}
 
@@ -51,11 +53,12 @@ public class PreTreatment {
 	 * declared within
 	 * 
 	 * @param lines
+	 * @return 
 	 * @return Returns the line number of the start of the code important for the
 	 *         process
 	 * @throws BadSourceCodeException
 	 */
-	private void preTreatInitialisationBlocks(String[] lines) throws BadSourceCodeException {
+	private int preTreatInitialisationBlocks(String[] lines) throws BadSourceCodeException {
 		// We extract the 4 initialization blocks from the source code
 		int[] blockIndexes = getBlockIndexes(lines);
 		String[] importBlock = Arrays.copyOfRange(lines, blockIndexes[0], blockIndexes[1]);
@@ -75,6 +78,10 @@ public class PreTreatment {
 		declareSharedVars(blockIndexes[2], sharedVarDecBlock, interpreter);
 		initSharedVars(blockIndexes[4], sharedVarInitBlock, interpreter);
 		declareLocalVars(blockIndexes[6], localVarDecBlock, interpreter);
+		
+		int endOfInitBlocks = blockIndexes[7];
+		
+		return endOfInitBlocks;
 
 	}
 
@@ -221,6 +228,7 @@ public class PreTreatment {
 		return line.split("\\s+")[1];
 	}
 
+	// TODO Remove test code
 	public void testPreTreatment() {
 		for (int i = 0; i < sharedVars.length; i++) {
 			// System.out.println();
@@ -448,6 +456,10 @@ public class PreTreatment {
 		System.arraycopy(array2, 0, mergedArray, len1, len2);
 
 		return mergedArray;
+	}
+	
+	public int getEndOfInitBlocks() {
+		return endOfInitBlocks;
 	}
 
 }

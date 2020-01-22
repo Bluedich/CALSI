@@ -37,7 +37,7 @@ public class Process {
 
 		this.sourceCode = source.split("\\r?\\n");
 
-		this.currentLine = 0;
+		this.currentLine = preTreatment.getEndOfInitBlocks();
 		this.done = false;
 	}
 
