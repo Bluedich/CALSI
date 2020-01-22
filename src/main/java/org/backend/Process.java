@@ -109,6 +109,10 @@ public class Process {
 		return done;
 	}
 	
+	public void crashProcess() {
+		done = true;
+	}
+	
 	public int getCurrentLine() {
 		return currentLine;
 	}

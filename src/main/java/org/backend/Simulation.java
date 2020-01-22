@@ -42,8 +42,11 @@ public class Simulation {
 		// TODO
 	}
 
-	public void crashProcess(int processId) {
-		// TODO
+	public void crashProcess(int processId) throws RipException {
+		if (processId >= processes.length) {
+			throw new RipException("Can't get termination status for process " + processId + " as it does not exist.");
+		}
+		processes[processId].crashProcess();
 	}
 
 	/**
