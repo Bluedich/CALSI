@@ -25,3 +25,4 @@ run {
 
 //A changer avec notre main class
 mainClassName = 'org.frontend.MainApp'
+

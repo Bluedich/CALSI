@@ -10,7 +10,7 @@ public class Main {
 		Infos infos = simulation.getInfos();
 
 		// Test simulation with prints to see what's going on as well as test the Infos class.
-		while (!infos.isDone()) {
+		while (!infos.simulationIsDone()) {
 			simulation.nextStep();
 			int executedProcessId = infos.getIdOfLastExecutedProcess();
 			String executedLine = infos.getExecutedPreTreatedLine();
@@ -33,6 +33,5 @@ public class Main {
 			}
 			System.out.println();
 		}
-		System.out.println(simulation.getProcesses()[0].getVarLst());
 	}
 }

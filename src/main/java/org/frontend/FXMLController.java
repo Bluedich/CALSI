@@ -221,14 +221,14 @@ public class FXMLController {
 				.withScheduler("random")
 				.build();
 		infos = simulation.getInfos();
-		System.out.print(infos.isDone());
+		System.out.print(infos.simulationIsDone());
 		initalizeProcess(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()));
 	}
 
 	
 	public void controllerDoSteps() throws BadSourceCodeException{
 		int count = Integer.parseInt(textFieldNumberOfSteps.getText());
-		while (!infos.isDone() && count>0) {
+		while (!infos.simulationIsDone() && count>0) {
 			count -= 1;
 			simulation.nextStep();
 			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
@@ -239,7 +239,7 @@ public class FXMLController {
 	}
 	
 	public void controllerPlusStep() throws BadSourceCodeException{
-		if (!infos.isDone()) {
+		if (!infos.simulationIsDone()) {
 			simulation.nextStep();
 			System.out.println(infos.getIdOfLastExecutedProcess());
 			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);

@@ -10,6 +10,7 @@ public class Process {
 	private int currentLine;
 	private Interpreter inter;
 	private boolean done;
+	private boolean crashed;
 
 	public Process(int index, PreTreatment preTreatment) throws BackEndException {
 		this.inter = new Interpreter();
@@ -37,8 +38,9 @@ public class Process {
 
 		this.sourceCode = source.split("\\r?\\n");
 
-		this.currentLine = 0;
+		this.currentLine = preTreatment.getEndOfInitBlocks();
 		this.done = false;
+		this.crashed = false;
 	}
 
 	public void treatGoto() throws EvalError {
@@ -109,6 +111,15 @@ public class Process {
 		return done;
 	}
 	
+	public boolean isCrashed() {
+		return crashed;
+	}
+	
+	public void crashProcess() {
+		done = true;
+		crashed = true;
+	}
+	
 	public int getCurrentLine() {
 		return currentLine;
 	}
@@ -116,10 +127,4 @@ public class Process {
 	public String[] getSourceCode() {
 		return sourceCode;
 	}
-	
-	// TODO For trialing purposes. Method should be removed or modified in the future
-	public String[] getVarLst() {
-		return inter.getNameSpace().getVariableNames();
-	}
-
 }
