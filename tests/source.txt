@@ -12,13 +12,13 @@ direction = -1;
 String bob;
 // Splitter Algorithm
 idRegister = i;
-if(porte != false){
+if(porte == false){
+	direction = 1;
+}else{
 	porte = false;
-	if(idRegister != i){
+	if(idRegister == i){
 		direction = 0;
 	}else{
 		direction = 2;
 	}
-}else{
-	direction = 1;
 }
