@@ -109,6 +109,14 @@ public class Infos {
 		return getProcess(processId).isCrashed();
 	}
 	
+	/**
+	 * Get a list of original source code line numbers, corresponding to the lines executed 
+	 * during the last step of the specified process
+	 * @param processId of the process in question
+	 * @return an list of the original source code line numbers, corresponding to the lines executed 
+	 * during the last step of the specified process
+	 * @throws RipException if the process id specified does not correspond to a process
+	 */
 	public ArrayList<Integer> getOriginalSourceLinesExecutedDuringLastStep(int processId) throws RipException {
 		Process process = getProcess(processId);
 		return process.getOriginalSourceLinesExecutedDuringLastStep();
