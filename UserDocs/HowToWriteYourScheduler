@@ -5,7 +5,7 @@ So if you want to load a scheduler you have to write a text file with the follow
 	2)	At every line you write the ID of the process that has the hand
 	3) 	To simulate a crash, use "!" before the number of the process.
 
-If at the end of the file all the process have not finished the execution (or are down), a loop is made.
+If at the end of the file all the processes have not finished the execution (or are crashed), a loop is made.
 It is important to note nothing guaranteed that the simulation will finish. 
 
 You can see an example of the scheduler format, in the text file sampleScheduler.txt
