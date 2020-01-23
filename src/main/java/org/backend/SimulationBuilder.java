@@ -14,7 +14,7 @@ public class SimulationBuilder {
 	}
 
 	/**
-	 * Set the source file for the processes'
+	 * Set the source file for the processes
 	 * 
 	 * @param sourceCodeFileName the name of the source file to be read from
 	 * @return itself

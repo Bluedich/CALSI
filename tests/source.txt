@@ -25,9 +25,11 @@ while ( a == true && b == j) {
 a = flag[j];
 b = turn;
 }
-1
-1
-1
+if(4){
+5
+}else{
+4
+}
 1
 1
 1

@@ -35,9 +35,12 @@ public class MainPretreat {
 		System.out.println(bc.getNumberOfLines());
 		System.out.println("");
 
-		// the new source code
+		// the new source code as String
 		System.out.println("The new source code is:");
 		System.out.println(bc.getNewSourceCode());
+		
+		// the new source code as String[]
+		String[] code = bc.getNewSourceCodeArray();
 		
 		// finding the original line number of the line number 11 in the new source code.
 		System.out.println("The line number 14 maps to the following line number in the original source code:");
