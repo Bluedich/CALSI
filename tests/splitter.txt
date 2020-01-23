@@ -20,5 +20,5 @@ if(porte != false){
 		direction = 2;
 	}
 }else{
-
+	direction = 1;
 }
