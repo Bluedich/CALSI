@@ -77,7 +77,7 @@ public class Simulation {
 			processes[processId].oneStep();
 		} catch (EvalError e) {
 			e.printStackTrace();
-			throw new BadSourceCodeException("EvalError when executing next step");
+			throw new BadSourceCodeException("EvalError when executing next step ");
 		}
 		executionOrderHistory.add(processId);
 	}
