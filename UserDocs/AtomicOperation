@@ -10,5 +10,4 @@ This list is exhaustive of what our program can made and you cannot do any other
 	5) .enqueue(x)		: Add the value x on queue of the shared queue
 	6) .dequeue()		: Return and removed the value at the tail of the shared queue
 
-**	Those operations are not yet available. 
-***	Every operation made on shared variable proceed on 1 line are done atomicly.
+**	All those operations are not yet available. 

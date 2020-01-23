@@ -1,5 +1,5 @@
-// Scheduler Syntax.
-When you want to use your own scheduler policy**, you have to specify at every step which process has the hand.
+// Scheduler Syntax.**
+When you want to use your own scheduler policy*, you have to specify at every step which process has the hand.
 So if you want to load a scheduler you have to write a text file with the following syntax :
 	1)	In the first line you write the number of process which are running you algorithm
 	2)	At every line you write the ID of the process that has the hand
@@ -12,4 +12,5 @@ You can see an example of the scheduler format, in the text file sampleScheduler
 
 To generate those files, you can at the end of the simulation save the last execution, "Scheduler->Save last execution".
 	
-** ie. not random
+* ie. not random
+** Feature not implemented yet

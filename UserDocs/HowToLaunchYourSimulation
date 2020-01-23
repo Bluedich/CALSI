@@ -12,4 +12,4 @@ The button "-step" allow you to go back one step before.**
 
 At the end of the simulation you can then save the last execution, "Scheduler->Save last execution". To know more about the format of those file read HowToWriteYourScheduler
 
-** This feature is not yet implemented
+** The feature "-step" is not yet implemented

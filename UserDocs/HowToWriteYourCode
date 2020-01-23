@@ -2,17 +2,19 @@ When you write your code you have to respect the following syntax, you can find 
 Before your code, your text file must be compose of three compact blocks without any blank line.**
 The different block must be separated from each other and from the code of your algorithm with a blank line.
 	1)	Import are done in the beginning of the file, before the first block, without any blank line between the different import
-	2)	The first block is there for the Shared Variable declaration
-	3)	The second block is there for the Shared Variable initialization
-	4)	The third block is there for Local Variable declaration
-	5)	Then you can write the code of your shared algorithm
-**The initialization of the simulation may change in the future, and the usage of block may be outdated soon.
+	2)	The first block is there for the Shared Variable declaration, without any blank line between the different declaration
+	3)	The second block is there for the Shared Variable initialization, without any blank line between the different initialization
+	4)	The third block is there for Local Variable declaration, without any blank line between the different declaration
+	5)	Then you can write the code of your concurrent algorithm*
+** The initialization of the simulation may change in the future, and the usage of block may be outdated soon.***
+*** This is still how you have to write your code for now.
 
 
 
-When you write your code you have to respect the following rules:
-	1)	The code of your algorithm should be writen respecting the Java syntax
-	2)	You only can made 1 atomic operation per line
-	3)	When you use loop for, while or if you have to respect specific syntax
-		i)	The opening accolade "{" have to be on the same line than the condition
-		ii)	The closing accolade "}" have to always be alone on the line
+* When you write your code you have to respect the following rules:
+	1)	The code of your algorithm should be written respecting the Java syntax
+	2)	You only can made 1 atomic operation per line (without what your severals operation will be done atomicly, which may change the way your algorithm work)
+	
+What is important to notice is that all operation made in one line are done atomicly.
+We know that the second rule is restrictive for the user and that it asks him to assure that every line don't contain more than 1 atomic operation.
+That why this implementation should be changed in the future.
