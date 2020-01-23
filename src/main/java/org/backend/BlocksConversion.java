@@ -57,6 +57,16 @@ public class BlocksConversion {
 	
 		return newSourceCode;
 	}
+	
+	public String[] getNewSourceCodeArray() throws BackEndException {
+		String[] result = new String[this.code.size()];
+
+		for(int i=0; i<this.code.size(); i++) {
+			Line l = this.lines.get(code.get(i));
+			result[i] = l.getLineCode(this.code);
+		}
+		return result;
+	}
 
 	/**
 	 * 
