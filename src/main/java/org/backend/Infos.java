@@ -96,11 +96,7 @@ public class Infos {
 	 * @throws RipException if the process id specified does not correspond to a process
 	 */
 	public boolean processIsDone(int processId) throws RipException {
-		Process processes[] = simulation.getProcesses();
-		if (processId >= processes.length) {
-			throw new RipException("Can't get termination status for process " + processId + " as it does not exist.");
-		}
-		return processes[processId].isDone();
+		return getProcess(processId).isDone();
 	}
 	
 	/**
@@ -110,14 +106,21 @@ public class Infos {
 	 * @throws RipException if the process id specified does not correspond to a process
 	 */
 	public boolean processIsCrashed(int processId) throws RipException {
-		Process processes[] = simulation.getProcesses();
-		if (processId >= processes.length) {
-			throw new RipException("Can't get crashed status for process " + processId + " as it does not exist.");
-		}
-		return processes[processId].isCrashed();
+		return getProcess(processId).isCrashed();
 	}
 	
+	public ArrayList<Integer> getOriginalSourceLinesExecutedDuringLastStep(int processId) throws RipException {
+		Process process = getProcess(processId);
+		return process.getOriginalSourceLinesExecutedDuringLastStep();
+	}
 	
+	private Process getProcess(int processId) throws RipException {
+		Process processes[] = simulation.getProcesses();
+		if (processId >= processes.length) {
+			throw new RipException("Can't get termination status for process " + processId + " as it does not exist.");
+		}
+		return processes[processId];
+	}
 	
 	private VariableInfo[] VariableArrayToVariableInfoArray(Variable[] variableArray) {
 		VariableInfo variablesInfos[] = new VariableInfo[variableArray.length];

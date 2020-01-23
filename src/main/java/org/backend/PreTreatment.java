@@ -257,5 +257,9 @@ public class PreTreatment {
 	public int getEndOfInitBlocks() {
 		return endOfInitBlocks;
 	}
+	
+	public int getOriginalLineNumber(int lineNumber) {
+		return blocksConversion.originalLineNumber(lineNumber);
+	}
 
 }
