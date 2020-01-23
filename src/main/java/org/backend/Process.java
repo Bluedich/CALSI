@@ -1,5 +1,7 @@
 package org.backend;
 
+import java.util.ArrayList;
+
 import bsh.EvalError;
 import bsh.Interpreter;
 
@@ -11,6 +13,8 @@ public class Process {
 	private Interpreter inter;
 	private boolean done;
 	private boolean crashed;
+	private ArrayList<Integer> originalSourceLinesExecutedDuringLastStep;
+	private PreTreatment preTreatment;
 
 	public Process(int index, PreTreatment preTreatment) throws BackEndException {
 		this.inter = new Interpreter();
@@ -34,18 +38,19 @@ public class Process {
 		// We receive a copy of the array of local variables
 		localVars = preTreatment.getLocalVars();
 		
-		String source = preTreatment.getPreTreatedSource();
-
-		this.sourceCode = source.split("\\r?\\n");
+		sourceCode = preTreatment.getPreTreatedSource();
 
 		this.currentLine = preTreatment.getEndOfInitBlocks();
 		this.done = false;
 		this.crashed = false;
+		originalSourceLinesExecutedDuringLastStep = new ArrayList<Integer>();
+		this.preTreatment = preTreatment;
 	}
 
 	public void treatGoto() throws EvalError {
 		// currentLine is a goto
 		String instruction = this.sourceCode[this.currentLine];
+		System.out.println("Treating following goto instruction: " + instruction);
 		String condition = instruction.substring(6, instruction.indexOf(','));
 		int targetLine = Integer
 				.parseInt(instruction.substring(instruction.indexOf(',') + 1, instruction.length() - 2).trim());
@@ -60,9 +65,11 @@ public class Process {
 	}
 
 	public void oneStep() throws EvalError {
-
 		if (this.done)
 			return;
+		
+		originalSourceLinesExecutedDuringLastStep.clear();
+		originalSourceLinesExecutedDuringLastStep.add(preTreatment.getOriginalLineNumber(currentLine));
 
 		// The shared variables in the interpreter (which might have been modified in an other process since) are 
 		// updated from the array of shared variables.
@@ -126,5 +133,9 @@ public class Process {
 	
 	public String[] getSourceCode() {
 		return sourceCode;
+	}
+	
+	public ArrayList<Integer> getOriginalSourceLinesExecutedDuringLastStep() {
+		return originalSourceLinesExecutedDuringLastStep;
 	}
 }

@@ -16,9 +16,10 @@ public class Main {
 			String executedLine = infos.getExecutedPreTreatedLine();
 			VariableInfo sharedVariablesInfos[] = infos.getSharedVariables();
 			VariableInfo localVariablesInfos[] = infos.getLocalVariables(executedProcessId);
+			int originalLine = infos.getOriginalSourceLinesExecutedDuringLastStep(executedProcessId).get(0);
 			
 			System.out.println("[" + executedProcessId + "]: " + executedLine);
-			
+			System.out.println("Original Line : " + Integer.toString(originalLine));
 			System.out.print("Shared Variables:");
 			for (int i = 0; i < sharedVariablesInfos.length; i++) {
 				VariableInfo sharedVar = sharedVariablesInfos[i];
