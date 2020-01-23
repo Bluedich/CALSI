@@ -115,7 +115,7 @@ public class FXMLController {
 
 	@FXML
 	private TextField textFieldNumberOfSteps;
-
+	
 	private SimulationBuilder simulationBuilder;
 	private Simulation simulation;
 	private Infos infos;
@@ -127,16 +127,19 @@ public class FXMLController {
 	private String fichiercode="";
 	private String cordo="";
 	private String listProc="";
-	private int nbrofprocess;
+	private int numberOfProcesses;
 	private int [] processline;
 
-
+	
 
 
 
 	public void initialize() {
-		choiceBoxLocalVariables.getItems().addAll("P1", "P2", "P3", "P4");
-		choiceBoxLocalVariables.setValue("P4");
+
+		choiceBoxLocalVariables.getSelectionModel().selectedItemProperty()
+	    .addListener((obs, oldV, newV) -> 
+	    updateLocalVariables());
+		
 		choiceBoxScheduling.getItems().addAll("Step-by-step", "Random" , "With File");
 		choiceBoxScheduling.setValue("Step-by-step");
 		listView1.setItems(content1);
@@ -223,6 +226,8 @@ public class FXMLController {
 		infos = simulation.getInfos();
 		System.out.print(infos.simulationIsDone());
 		initalizeProcess(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()));
+		updateChoiceBoxLocalVariables();
+		
 	}
 
 	
@@ -236,6 +241,7 @@ public class FXMLController {
 			System.out.println(infos.getSharedVariables()[1].getName());
 		}
 		updateSharedVariables();
+		updateLocalVariables();
 	}
 	
 	public void controllerPlusStep() throws BadSourceCodeException{
@@ -244,7 +250,16 @@ public class FXMLController {
 			System.out.println(infos.getIdOfLastExecutedProcess());
 			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
 			updateSharedVariables();
+			updateLocalVariables();
 		}
+	}
+	
+	public void updateChoiceBoxLocalVariables() {
+		choiceBoxLocalVariables.getItems().clear();
+		for (int i = 0; i < numberOfProcesses; i++) {
+			choiceBoxLocalVariables.getItems().add("P"+ Integer.toString(i));
+		}
+		choiceBoxLocalVariables.setValue("P0");
 	}
 
 	public void updateSharedVariables() {
@@ -264,8 +279,32 @@ public class FXMLController {
 		}
 	}
 	
+	
+	
+	public void updateLocalVariables() {
+		content1.remove(0, content1.size());
+		content2.remove(0, content2.size());
+		String currentProcess = choiceBoxLocalVariables.getSelectionModel().getSelectedItem();
+		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
+		System.out.println("chosen process " + Integer.toString(currentProcessId));
+		VariableInfo[] variableInfo = infos.getLocalVariables(currentProcessId);
+		for(int i=0;i<variableInfo.length;i++)
+		{
+			if(variableInfo[i] == null)
+			{		  
+				break;
+			}
+			else {
+				content1.addAll(variableInfo[i].getName());
+				content2.addAll(variableInfo[i].getValue());
+			}
+		}
+	}
+	
+	
+	
 	public void initalizeProcess(int nbrp){
-		nbrofprocess=nbrp;
+		numberOfProcesses=nbrp;
 		processline= new int[nbrp];
 		Arrays.fill(processline, 0);
 		updateProcess(0,0);
@@ -281,7 +320,7 @@ public class FXMLController {
 		listProc="";
 		processline[nump]=linep;
 		for (int l = 0; l < countLines(code) ; l++) {
-			for (int i = 0; i < nbrofprocess; i++) {
+			for (int i = 0; i < numberOfProcesses; i++) {
 				if (l==processline[i]) {
 					listProc=listProc+"P"+Integer.toString(i)+",";
 				}

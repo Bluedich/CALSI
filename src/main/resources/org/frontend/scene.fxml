@@ -145,7 +145,7 @@
                            <children>
                               <Pane prefHeight="359.0" prefWidth="262.0">
                                  <children>
-                                    <ChoiceBox fx:id="choiceBoxLocalVariables" layoutX="4.0" layoutY="33.0" prefWidth="150.0" />
+                                    <ChoiceBox fx:id="choiceBoxLocalVariables" layoutX="4.0" layoutY="33.0" onDragDone="#updateLocalVariables" prefWidth="150.0" />
                                     <ListView fx:id="listView1" layoutX="4.0" layoutY="68.0" prefHeight="126.0" prefWidth="131.0" />
                                     <ListView fx:id="listView3" layoutX="4.0" layoutY="222.0" prefHeight="133.0" prefWidth="131.0" />
                                     <Label layoutX="14.0" layoutY="6.0" text="Local Variables" />
