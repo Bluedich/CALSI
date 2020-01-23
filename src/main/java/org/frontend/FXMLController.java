@@ -33,6 +33,7 @@ import java.util.List;
 import org.backend.BackEndException;
 import org.backend.BadSourceCodeException;
 import org.backend.Infos;
+import org.backend.RipException;
 import org.backend.Simulation;
 import org.backend.SimulationBuilder;
 import org.backend.VariableInfo;
@@ -84,6 +85,8 @@ public class FXMLController {
 	@FXML
 	private Button buttonMinusStep;
 	@FXML
+	private Button buttonProcessCrash;
+	@FXML
 	private ListView<String> listView1;
 	@FXML
 	private ListView<String> listView2;
@@ -97,6 +100,9 @@ public class FXMLController {
 
 	@FXML
 	private ChoiceBox<String> choiceBoxScheduling;
+	
+	@FXML
+	private ChoiceBox<String> choiceBoxProcessToCrash;
 
 	@FXML
 	private Slider sliderSpeed;
@@ -227,6 +233,7 @@ public class FXMLController {
 		System.out.print(infos.simulationIsDone());
 		initalizeProcess(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()));
 		updateChoiceBoxLocalVariables();
+		updateChoiceBoxProcessToCrash();
 		
 	}
 
@@ -260,6 +267,14 @@ public class FXMLController {
 			choiceBoxLocalVariables.getItems().add("P"+ Integer.toString(i));
 		}
 		choiceBoxLocalVariables.setValue("P0");
+	}
+	
+	public void updateChoiceBoxProcessToCrash() {
+		choiceBoxProcessToCrash.getItems().clear();
+		for (int i = 0; i < numberOfProcesses; i++) {
+			choiceBoxProcessToCrash.getItems().add("P"+ Integer.toString(i));
+		}
+		choiceBoxProcessToCrash.setValue("P0");
 	}
 
 	public void updateSharedVariables() {
@@ -328,6 +343,15 @@ public class FXMLController {
 			listProc=listProc+"\n";
 		}
 		lineProc.setText(listProc);
+	}
+	
+	public void onClickedCrashProcess() throws RipException {
+		String currentProcess = choiceBoxProcessToCrash.getSelectionModel().getSelectedItem();
+		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
+		simulation.crashProcess(currentProcessId);
+		choiceBoxProcessToCrash.getItems().remove(currentProcess);
+		System.out.println(currentProcess + " crashed");
+		
 	}
 	
 }
