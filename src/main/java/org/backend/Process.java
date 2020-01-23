@@ -34,9 +34,7 @@ public class Process {
 		// We receive a copy of the array of local variables
 		localVars = preTreatment.getLocalVars();
 		
-		String source = preTreatment.getPreTreatedSource();
-
-		this.sourceCode = source.split("\\r?\\n");
+		sourceCode = preTreatment.getPreTreatedSource();
 
 		this.currentLine = preTreatment.getEndOfInitBlocks();
 		this.done = false;
