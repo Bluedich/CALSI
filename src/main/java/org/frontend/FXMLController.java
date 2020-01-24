@@ -114,6 +114,9 @@ public class FXMLController {
 	private TextArea textAreaOriginalCode;
 	
 	@FXML
+	private TextArea textAreaParsedCode;
+	
+	@FXML
 	private TextFlow lineProc;
 
 	@FXML
@@ -238,6 +241,7 @@ public class FXMLController {
 		initalizeProcess(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()));
 		updateChoiceBoxLocalVariables();
 		updateChoiceBoxProcessToCrash();
+		textAreaParsedCode.setText(infos.getNewSourceCode());
 		
 	}
 
