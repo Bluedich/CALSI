@@ -373,4 +373,176 @@ public class FXMLController {
 		
 	}
 	
+	
+	public void help1(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("AtomicOperation");
+        alert.setHeaderText(null);
+        alert.setContentText("This is a list of operation that you can made** on shared variable. \r\n" + 
+        		"This list is exhaustive of what our program can made and you cannot do any other atomic operation with shared variable.***\r\n" + 
+        		"\r\n" + 
+        		"	1) .read()			: Return the value of the shared register\r\n" + 
+        		"	2) .write(x)		: Write x in the shared register\r\n" + 
+        		"	\r\n" + 
+        		"	3) .update(x)		: Write x in the shared array at the position i (i=index of the process)\r\n" + 
+        		"	4) .snapshot()		: Return the value of the shared array\r\n" + 
+        		"	\r\n" + 
+        		"	5) .enqueue(x)		: Add the value x on queue of the shared queue\r\n" + 
+        		"	6) .dequeue()		: Return and removed the value at the tail of the shared queue\r\n" + 
+        		"\r\n" + 
+        		"**	All those operations are not yet available. ");
+        alert.setResizable(true);
+        alert.getDialogPane().setPrefSize(500, 500);
+        alert.showAndWait();
+	}
+	public void help2(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("HowToLaunchYourSimulation");
+        alert.setHeaderText(null);
+        alert.setContentText("How To Launch Your Simulation.\r\n" + 
+        		"\r\n" + 
+        		"To launch the execution, first load (or write) your algorithm on the tab \"Original Code\". To load your algorithm, use the tab \"File->Open...\"\r\n" + 
+        		"Make sure this file respect the rules describe in HowToWriteYourCode. \r\n" + 
+        		"Then you have to choose your scheduler policy with \"Scheduling Policy\". You have the choice between \"Random, StepByStep and with File\".\r\n" + 
+        		"Unless you choose \"With file\", you have then to specify the number of process in your simulation in \"Number of processes\" at the right of the Window. \r\n" + 
+        		"\r\n" + 
+        		"After those settings, you can launch the simulation clicking on \"New Execution\".\r\n" + 
+        		"Once launch, you can use the button \"+step\" to execute one step. \r\n" + 
+        		"The scheduler will then choose a process and execute a step, all the value of local and shared variables will be updated.\r\n" + 
+        		"The button \"-step\" allow you to go back one step before.**\r\n" + 
+        		"\r\n" + 
+        		"At the end of the simulation you can then save the last execution, \"Scheduler->Save last execution\". To know more about the format of those file read HowToWriteYourScheduler\r\n" + 
+        		"\r\n" + 
+        		"** The feature \"-step\" is not yet implemented");
+        alert.setResizable(true);
+        alert.getDialogPane().setPrefSize(500, 500);
+        alert.showAndWait();
+	}
+	public void help3(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("HowToWriteYourCode");
+        alert.setHeaderText(null);
+        alert.setContentText("When you write your code you have to respect the following syntax, you can find an example in the file sampleCode.txt\r\n" + 
+        		"Before your code, your text file must be compose of three compact blocks without any blank line.**\r\n" + 
+        		"The different block must be separated from each other and from the code of your algorithm with a blank line.\r\n" + 
+        		"	1)	Import are done in the beginning of the file, before the first block, without any blank line between the different import\r\n" + 
+        		"	2)	The first block is there for the Shared Variable declaration, without any blank line between the different declaration\r\n" + 
+        		"	3)	The second block is there for the Shared Variable initialization, without any blank line between the different initialization\r\n" + 
+        		"	4)	The third block is there for Local Variable declaration, without any blank line between the different declaration\r\n" + 
+        		"	5)	Then you can write the code of your concurrent algorithm*\r\n" + 
+        		"** The initialization of the simulation may change in the future, and the usage of block may be outdated soon.***\r\n" + 
+        		"*** This is still how you have to write your code for now.\r\n" + 
+        		"\r\n" + 
+        		"\r\n" + 
+        		"\r\n" + 
+        		"* When you write your code you have to respect the following rules:\r\n" + 
+        		"	1)	The code of your algorithm should be written respecting the Java syntax\r\n" + 
+        		"	2)	You only can made 1 atomic operation per line (without what your severals operation will be done atomicly, which may change the way your algorithm work)\r\n" + 
+        		"	\r\n" + 
+        		"What is important to notice is that all operation made in one line are done atomicly.\r\n" + 
+        		"We know that the second rule is restrictive for the user and that it asks him to assure that every line don't contain more than 1 atomic operation.\r\n" + 
+        		"That why this implementation should be changed in the future.");
+        alert.setResizable(true);
+        alert.getDialogPane().setPrefSize(500, 500);
+        alert.showAndWait();
+	}
+	public void help4(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("HowToWriteYourScheduler");
+        alert.setHeaderText(null);
+        alert.setContentText("// Scheduler Syntax.**\r\n" + 
+        		"When you want to use your own scheduler policy*, you have to specify at every step which process has the hand.\r\n" + 
+        		"So if you want to load a scheduler you have to write a text file with the following syntax :\r\n" + 
+        		"	1)	In the first line you write the number of process which are running you algorithm\r\n" + 
+        		"	2)	At every line you write the ID of the process that has the hand\r\n" + 
+        		"	3) 	To simulate a crash, use \"!\" before the number of the process.\r\n" + 
+        		"\r\n" + 
+        		"If at the end of the file all the processes have not finished the execution (or are crashed), a loop is made.\r\n" + 
+        		"It is important to note nothing guaranteed that the simulation will finish. \r\n" + 
+        		"\r\n" + 
+        		"You can see an example of the scheduler format, in the text file sampleScheduler.txt\r\n" + 
+        		"\r\n" + 
+        		"To generate those files, you can at the end of the simulation save the last execution, \"Scheduler->Save last execution\".\r\n" + 
+        		"	\r\n" + 
+        		"* ie. not random\r\n" + 
+        		"** Feature not implemented yet");
+        alert.setResizable(true);
+        alert.getDialogPane().setPrefSize(500, 500);
+        alert.showAndWait();
+	}
+	public void help5(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("samleScheduler");
+        alert.setHeaderText(null);
+        alert.setContentText("5\r\n" + 
+        		"1\r\n" + 
+        		"1\r\n" + 
+        		"2\r\n" + 
+        		"1\r\n" + 
+        		"5\r\n" + 
+        		"4\r\n" + 
+        		"4\r\n" + 
+        		"3\r\n" + 
+        		"2\r\n" + 
+        		"1\r\n" + 
+        		"3\r\n" + 
+        		"5\r\n" + 
+        		"4");
+        alert.setResizable(true);
+        alert.getDialogPane().setPrefSize(500, 500);
+        alert.showAndWait();
+	}
+	public void help6(){
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("sampleCode");
+        alert.setHeaderText(null);
+        alert.setContentText("import java.lang.Math; 						//	All import have to be made without any blank line\r\n" + 
+        		"\r\n" + 
+        		"// // Shared variables declaration			//	All declaration have to be made without any blank line\r\n" + 
+        		"Integer turn;\r\n" + 
+        		"Boolean[] flag;\r\n" + 
+        		"\r\n" + 
+        		"// // Shared variables initialization		//	All initialization have to be made without any blank line\r\n" + 
+        		"turn = new Integer(0);\r\n" + 
+        		"flag = new Boolean[2];\r\n" + 
+        		"flag[0] = false;\r\n" + 
+        		"flag[1] = false;\r\n" + 
+        		"\r\n" + 
+        		"// // Local variables declaration			//	All declaration have to be made without any blank line\r\n" + 
+        		"int j;\r\n" + 
+        		"boolean a;\r\n" + 
+        		"int b;\r\n" + 
+        		"\r\n" + 
+        		"// // Algorithm								//	You can write your algorithm using Java Syntax, blank line are allowed\r\n" + 
+        		"// 											//	You only can access one variable operation at a time\r\n" + 
+        		"// \r\n" + 
+        		"\r\n" + 
+        		"// // There for example, Petreson algorithm \r\n" + 
+        		"j = (i+1) % 2;\r\n" + 
+        		"flag[i] = true;\r\n" + 
+        		"turn = j;\r\n" + 
+        		"a = flag[j];								// All operation made in one line are atomic\r\n" + 
+        		"b = turn;										\r\n" + 
+        		"											//	Blank line are allowed\r\n" + 
+        		"while ( a == true && b == j) {				//	The opening accolade \"{\" have to be in the same line than the condition\r\n" + 
+        		"a = flag[j];\r\n" + 
+        		"b = turn;\r\n" + 
+        		"}											//	The closing accolade \"}\" have to be alone on the line\r\n" + 
+        		"// critical section \r\n" + 
+        		"1\r\n" + 
+        		"1\r\n" + 
+        		"1\r\n" + 
+        		"1\r\n" + 
+        		"1\r\n" + 
+        		"1\r\n" + 
+        		"1\r\n" + 
+        		"1\r\n" + 
+        		"// end of critical section\r\n" + 
+        		"flag[i] = false;\r\n" + 
+        		"");
+        alert.setResizable(true);
+        alert.getDialogPane().setPrefSize(500, 500);
+        alert.showAndWait();
+	}
+	
 }

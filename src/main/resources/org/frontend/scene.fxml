@@ -45,6 +45,16 @@
                   <MenuItem mnemonicParsing="false" text="Save last execution" />
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Help">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#help1" text="AtomicOperation" />
+                  <MenuItem mnemonicParsing="false" onAction="#help2" text="HowToLaunchYourSimulation" />
+                  <MenuItem mnemonicParsing="false" onAction="#help3" text="HowToWriteYourCode" />
+                  <MenuItem mnemonicParsing="false" onAction="#help4" text="HowToWriteYourScheduler" />
+                  <MenuItem mnemonicParsing="false" onAction="#help5" text="samleScheduler" />
+                  <MenuItem mnemonicParsing="false" onAction="#help6" text="sampleCode" />
+               </items>
+            </Menu>
       </menus>
     </MenuBar>
       <HBox prefHeight="37.0" prefWidth="1080.0">
