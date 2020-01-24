@@ -131,5 +131,9 @@ public class Simulation {
 	public Process[] getProcesses() {
 		return processes;
 	}
+	
+	public PreTreatment getPreTreatment() {
+		return preTreatment;
+	}
 
 }
