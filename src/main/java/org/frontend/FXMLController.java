@@ -27,8 +27,10 @@ import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import javafx.scene.text.*;
 
 import org.backend.BackEndException;
 import org.backend.BadSourceCodeException;
@@ -49,8 +51,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-
-
+import javafx.scene.text.TextFlow;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 /**
  * @author renon
@@ -111,7 +114,7 @@ public class FXMLController {
 	private TextArea textAreaOriginalCode;
 	
 	@FXML
-	private TextArea lineProc;
+	private TextFlow lineProc;
 
 	@FXML
 	private TextField textFieldSpeed; 
@@ -127,7 +130,7 @@ public class FXMLController {
 	private Infos infos;
 
 
-
+	boolean auto = false;
 	private static DecimalFormat df = new DecimalFormat("0.0");
 	private String code="Ici votre code";
 	private String fichiercode="";
@@ -135,6 +138,7 @@ public class FXMLController {
 	private String listProc="";
 	private int numberOfProcesses;
 	private int [] processline;
+	
 
 	
 
@@ -238,27 +242,27 @@ public class FXMLController {
 	}
 
 	
-	public void controllerDoSteps() throws BadSourceCodeException{
+	public void controllerDoSteps() throws BackEndException{
 		int count = Integer.parseInt(textFieldNumberOfSteps.getText());
 		while (!infos.simulationIsDone() && count>0) {
 			count -= 1;
-			simulation.nextStep();
-			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
-			System.out.println(infos.getIdOfLastExecutedProcess());
-			System.out.println(infos.getSharedVariables()[1].getName());
+			controllerPlusStep();
 		}
-		updateSharedVariables();
-		updateLocalVariables();
 	}
 	
-	public void controllerPlusStep() throws BadSourceCodeException{
+	public void controllerPlusStep() throws BackEndException{
+		try {
 		if (!infos.simulationIsDone()) {
 			simulation.nextStep();
 			System.out.println(infos.getIdOfLastExecutedProcess());
-			updateProcess(infos.getIdOfLastExecutedProcess(),processline[infos.getIdOfLastExecutedProcess()]+1);
+			ArrayList<Integer> arrayExec = infos.getOriginalSourceLinesExecutedDuringLastStep(infos.getIdOfLastExecutedProcess());
+			updateProcess(infos.getIdOfLastExecutedProcess(),arrayExec.get(0));
 			updateSharedVariables();
 			updateLocalVariables();
 		}
+	    } catch (Exception e) {
+	        System.out.println(e);
+	      }
 	}
 	
 	public void updateChoiceBoxLocalVariables() {
@@ -318,7 +322,7 @@ public class FXMLController {
 	
 	
 	
-	public void initalizeProcess(int nbrp){
+	public void initalizeProcess(int nbrp) throws RipException{
 		numberOfProcesses=nbrp;
 		processline= new int[nbrp];
 		Arrays.fill(processline, 0);
@@ -331,18 +335,33 @@ public class FXMLController {
 		   return  lines.length;
 	}
 	
-	public void updateProcess(int nump,int linep){
+	public void updateProcess(int nump,int linep) throws RipException{
+        lineProc.getChildren().clear();
 		listProc="";
 		processline[nump]=linep;
+
 		for (int l = 0; l < countLines(code) ; l++) {
 			for (int i = 0; i < numberOfProcesses; i++) {
 				if (l==processline[i]) {
-					listProc=listProc+"P"+Integer.toString(i)+",";
+					Text textForProcess = new Text("P"+Integer.toString(i)+","); 
+					textForProcess.setFont(Font.font("System", 12));
+					textForProcess.setStyle("-fx-font-weight: regular");
+					textForProcess.setFill(Color.BLACK);
+					if(infos.processIsDone(i)) {
+						textForProcess.setFill(Color.BLUE);
+					}
+					if(infos.processIsCrashed(i)) {
+						textForProcess.setFill(Color.RED);
+					}
+					if(i==nump) {
+						textForProcess.setStyle("-fx-font-weight: bold");
+					}
+					lineProc.getChildren().add(textForProcess);
 				}
 			}
-			listProc=listProc+"\n";
+			Text textForProcess = new Text("\n"); 
+			lineProc.getChildren().add(textForProcess);
 		}
-		lineProc.setText(listProc);
 	}
 	
 	public void onClickedCrashProcess() throws RipException {
