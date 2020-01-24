@@ -261,5 +261,9 @@ public class PreTreatment {
 	public int getOriginalLineNumber(int lineNumber) {
 		return blocksConversion.originalLineNumber(lineNumber);
 	}
+	
+	public String getNewSourceCode() throws BackEndException {
+		return blocksConversion.getNewSourceCode();
+	}
 
 }

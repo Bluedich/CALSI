@@ -122,6 +122,11 @@ public class Infos {
 		return process.getOriginalSourceLinesExecutedDuringLastStep();
 	}
 	
+	public String getNewSourceCode() throws BackEndException {
+		PreTreatment preTreatment = simulation.getPreTreatment();
+		return preTreatment.getNewSourceCode();
+	}
+	
 	private Process getProcess(int processId) throws RipException {
 		Process processes[] = simulation.getProcesses();
 		if (processId >= processes.length) {
