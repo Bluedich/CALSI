@@ -138,9 +138,9 @@ public class FXMLController {
 	private String code="Ici votre code";
 	private String fichiercode="";
 	private String cordo="";
-	private String listProc="";
 	private int numberOfProcesses;
 	private int [] processline;
+	
 	
 
 	
@@ -160,8 +160,6 @@ public class FXMLController {
 		listView3.setItems(content3);
 		listView4.setItems(content4);
 		textAreaOriginalCode.setText(code);
-
-
 	}
 	public void speedtex() {
 		sliderSpeed.setValue(Double.valueOf(textFieldSpeed.getText()) );
@@ -242,7 +240,6 @@ public class FXMLController {
 		updateChoiceBoxLocalVariables();
 		updateChoiceBoxProcessToCrash();
 		textAreaParsedCode.setText(infos.getNewSourceCode());
-		
 	}
 
 	
@@ -341,14 +338,18 @@ public class FXMLController {
 	
 	public void updateProcess(int nump,int linep) throws RipException{
         lineProc.getChildren().clear();
-		listProc="";
 		processline[nump]=linep;
 
 		for (int l = 0; l < countLines(code) ; l++) {
+			Text textForProcess2 = new Text(Integer.toString(l)+")"); 
+			textForProcess2.setFont(Font.font("System", 18.9));
+			textForProcess2.setStyle("-fx-font-weight: regular");
+			textForProcess2.setFill(Color.BLACK);
+			lineProc.getChildren().add(textForProcess2);
 			for (int i = 0; i < numberOfProcesses; i++) {
 				if (l==processline[i]) {
 					Text textForProcess = new Text("P"+Integer.toString(i)+","); 
-					textForProcess.setFont(Font.font("System", 12));
+					textForProcess.setFont(Font.font("System", 18.9));
 					textForProcess.setStyle("-fx-font-weight: regular");
 					textForProcess.setFill(Color.BLACK);
 					if(infos.processIsDone(i)) {
@@ -364,6 +365,7 @@ public class FXMLController {
 				}
 			}
 			Text textForProcess = new Text("\n"); 
+			textForProcess.setFont(Font.font("System", 18.9));
 			lineProc.getChildren().add(textForProcess);
 		}
 	}
@@ -375,6 +377,18 @@ public class FXMLController {
 		choiceBoxProcessToCrash.getItems().remove(currentProcess);
 		System.out.println(currentProcess + " crashed");
 		
+	}
+	
+	public void startAuto() throws BackEndException, InterruptedException{
+		auto = true;
+		while (!infos.simulationIsDone() && auto) {
+			controllerPlusStep();
+			Thread.sleep(2000);
+		}		
+	}
+	
+	public void stopAuto(){
+		auto = false;		
 	}
 	
 	
