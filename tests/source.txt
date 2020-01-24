@@ -3,13 +3,11 @@ import java.lang.String;
 // Shared variables declaration
 Boolean porte;
 Integer idRegister;
-Integer direction;
 // Shared variables initialization
 idRegister = -1;
 porte = true;
-direction = -1;
 // No local variables declaration
-String bob;
+Integer direction;
 // Splitter Algorithm
 idRegister = i;
 if(porte == false){
