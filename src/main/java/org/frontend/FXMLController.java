@@ -147,8 +147,7 @@ public class FXMLController {
 	public void initialize() {
 
 		choiceBoxLocalVariables.getSelectionModel().selectedItemProperty()
-	    .addListener((obs, oldV, newV) -> 
-	    updateLocalVariables());
+	    .addListener((obs, oldV, newV) -> updateLocalVariables());
 		
 		choiceBoxScheduling.getItems().addAll("Step-by-step", "Random" , "With File");
 		choiceBoxScheduling.setValue("Step-by-step");
@@ -306,7 +305,14 @@ public class FXMLController {
 		String currentProcess = choiceBoxLocalVariables.getSelectionModel().getSelectedItem();
 		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
 		System.out.println("chosen process " + Integer.toString(currentProcessId));
-		VariableInfo[] variableInfo = infos.getLocalVariables(currentProcessId);
+		VariableInfo[] variableInfo;
+		try {
+			variableInfo = infos.getLocalVariables(currentProcessId);
+		} catch (RipException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		for(int i=0;i<variableInfo.length;i++)
 		{
 			if(variableInfo[i] == null)
@@ -314,6 +320,7 @@ public class FXMLController {
 				break;
 			}
 			else {
+				System.out.println("    " + variableInfo[i].getName() + " " + variableInfo[i].getValue());
 				content1.addAll(variableInfo[i].getName());
 				content2.addAll(variableInfo[i].getValue());
 			}

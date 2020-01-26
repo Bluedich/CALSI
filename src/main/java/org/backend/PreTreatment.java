@@ -243,7 +243,11 @@ public class PreTreatment {
 	}
 
 	public Variable[] getLocalVars() {
-		return localVars.clone();
+		Variable[] localVarsDeepCopy = new Variable[localVars.length];
+		for (int i = 0; i < localVars.length; i++) {
+			localVarsDeepCopy[i] = new Variable(localVars[i].getName());
+		}
+		return localVarsDeepCopy;
 	}
 
 	public static Integer indexOf(Integer[] tab, Integer a) throws BadSourceCodeException {
