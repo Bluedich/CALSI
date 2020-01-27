@@ -1,0 +1,22 @@
+import java.lang.Math; 
+import java.lang.String;
+// Shared variables declaration
+Boolean porte;
+Integer idRegister;
+// Shared variables initialization
+idRegister = -1;
+porte = true;
+// No local variables declaration
+Integer direction;
+// Splitter Algorithm
+idRegister = i;
+if(porte == false){
+	direction = 1;
+}else{
+	porte = false;
+	if(idRegister == i){
+		direction = 0;
+	}else{
+		direction = 2;
+	}
+}
