@@ -145,6 +145,11 @@ public class FXMLController {
 	private String cordo="";
 	private int numberOfProcesses;
 	private int [] processline;
+	private Timeline timeline;
+	private double s=50.00;
+	
+	
+	
 	
 	
 
@@ -153,6 +158,7 @@ public class FXMLController {
 
 
 	public void initialize() {
+
 
 		choiceBoxLocalVariables.getSelectionModel().selectedItemProperty()
 	    .addListener((obs, oldV, newV) -> updateLocalVariables());
@@ -170,7 +176,7 @@ public class FXMLController {
 	}
 	
 	public void slidert() {
-		Double s= sliderSpeed.getValue();
+		s= sliderSpeed.getValue();
 		String s2= df.format(s);
 		System.out.print(s+"\n");
 		textFieldSpeed.setText(""+s2);
@@ -413,23 +419,31 @@ public class FXMLController {
 	}
 	
 	public void startAuto() throws BackEndException, InterruptedException{
+		if (!auto) {
 		auto = true;
-		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() { 
+		timeline = new Timeline(new KeyFrame(Duration.millis(10000/s), new EventHandler<ActionEvent>() { 
 
 		    @Override
 		    public void handle(ActionEvent event) {
 		    	if (!infos.simulationIsDone() && auto) {
 		    		System.out.println( "youpi");
+		    		try {
+						controllerPlusStep();
+					} catch (BackEndException e) {
+						e.printStackTrace();
+					}
 		    	}
 		    }
 		}));
 		timeline.setCycleCount(10000000);
 		timeline.play();
+		}
 
 	}
-	
+		
 	public void stopAuto(){
-		auto = false;		
+		auto = false;
+		timeline.stop();
 	}
 	
 	
