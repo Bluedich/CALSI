@@ -141,9 +141,9 @@ public class FXMLController {
 	private String code="Ici votre code";
 	private String fichiercode="";
 	private String cordo="";
-	private String listProc="";
 	private int numberOfProcesses;
 	private int [] processline;
+	
 	
 
 	
@@ -153,8 +153,7 @@ public class FXMLController {
 	public void initialize() {
 
 		choiceBoxLocalVariables.getSelectionModel().selectedItemProperty()
-	    .addListener((obs, oldV, newV) -> 
-	    updateLocalVariables());
+	    .addListener((obs, oldV, newV) -> updateLocalVariables());
 		
 		choiceBoxScheduling.getItems().addAll("Step-by-step", "Random" , "With File");
 		choiceBoxScheduling.setValue("Step-by-step");
@@ -163,8 +162,6 @@ public class FXMLController {
 		listView3.setItems(content3);
 		listView4.setItems(content4);
 		textAreaOriginalCode.setText(code);
-
-
 	}
 	public void speedtex() {
 		sliderSpeed.setValue(Double.valueOf(textFieldSpeed.getText()) );
@@ -248,7 +245,6 @@ public class FXMLController {
 		updateChoiceBoxStepByStep();
 		updateChoiceBoxProcessToCrash();
 		textAreaParsedCode.setText(infos.getNewSourceCode());
-		
 	}
 
 	
@@ -324,7 +320,14 @@ public class FXMLController {
 		String currentProcess = choiceBoxLocalVariables.getSelectionModel().getSelectedItem();
 		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
 		System.out.println("chosen process " + Integer.toString(currentProcessId));
-		VariableInfo[] variableInfo = infos.getLocalVariables(currentProcessId);
+		VariableInfo[] variableInfo;
+		try {
+			variableInfo = infos.getLocalVariables(currentProcessId);
+		} catch (RipException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		for(int i=0;i<variableInfo.length;i++)
 		{
 			if(variableInfo[i] == null)
@@ -332,6 +335,7 @@ public class FXMLController {
 				break;
 			}
 			else {
+				System.out.println("    " + variableInfo[i].getName() + " " + variableInfo[i].getValue());
 				content1.addAll(variableInfo[i].getName());
 				content2.addAll(variableInfo[i].getValue());
 			}
@@ -355,14 +359,18 @@ public class FXMLController {
 	
 	public void updateProcess(int nump,int linep) throws RipException{
         lineProc.getChildren().clear();
-		listProc="";
 		processline[nump]=linep;
 
 		for (int l = 0; l < countLines(code) ; l++) {
+			Text textForProcess2 = new Text(Integer.toString(l)+")"); 
+			textForProcess2.setFont(Font.font("System", 18.9));
+			textForProcess2.setStyle("-fx-font-weight: regular");
+			textForProcess2.setFill(Color.BLACK);
+			lineProc.getChildren().add(textForProcess2);
 			for (int i = 0; i < numberOfProcesses; i++) {
 				if (l==processline[i]) {
 					Text textForProcess = new Text("P"+Integer.toString(i)+","); 
-					textForProcess.setFont(Font.font("System", 12));
+					textForProcess.setFont(Font.font("System", 18.9));
 					textForProcess.setStyle("-fx-font-weight: regular");
 					textForProcess.setFill(Color.BLACK);
 					if(infos.processIsDone(i)) {
@@ -378,6 +386,7 @@ public class FXMLController {
 				}
 			}
 			Text textForProcess = new Text("\n"); 
+			textForProcess.setFont(Font.font("System", 18.9));
 			lineProc.getChildren().add(textForProcess);
 		}
 	}
@@ -399,6 +408,18 @@ public class FXMLController {
 		updateProcess(infos.getIdOfLastExecutedProcess(),arrayExec.get(0));
 		updateSharedVariables();
 		updateLocalVariables();
+	}
+	
+	public void startAuto() throws BackEndException, InterruptedException{
+		auto = true;
+		while (!infos.simulationIsDone() && auto) {
+			controllerPlusStep();
+			Thread.sleep(2000);
+		}		
+	}
+	
+	public void stopAuto(){
+		auto = false;		
 	}
 	
 	
