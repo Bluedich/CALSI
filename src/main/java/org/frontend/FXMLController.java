@@ -106,6 +106,9 @@ public class FXMLController {
 	
 	@FXML
 	private ChoiceBox<String> choiceBoxProcessToCrash;
+	
+	@FXML
+	private ChoiceBox<String> choiceBoxStepByStep;
 
 	@FXML
 	private Slider sliderSpeed;
@@ -166,12 +169,14 @@ public class FXMLController {
 	public void speedtex() {
 		sliderSpeed.setValue(Double.valueOf(textFieldSpeed.getText()) );
 	}
+	
 	public void slidert() {
 		Double s= sliderSpeed.getValue();
 		String s2= df.format(s);
 		System.out.print(s+"\n");
 		textFieldSpeed.setText(""+s2);
 	}
+	
 	public void saveFile() {
 		System.out.print("test save\n");
 		code=textAreaOriginalCode.getText();
@@ -240,6 +245,7 @@ public class FXMLController {
 		System.out.print(infos.simulationIsDone());
 		initalizeProcess(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()));
 		updateChoiceBoxLocalVariables();
+		updateChoiceBoxStepByStep();
 		updateChoiceBoxProcessToCrash();
 		textAreaParsedCode.setText(infos.getNewSourceCode());
 		
@@ -275,6 +281,14 @@ public class FXMLController {
 			choiceBoxLocalVariables.getItems().add("P"+ Integer.toString(i));
 		}
 		choiceBoxLocalVariables.setValue("P0");
+	}
+	
+	public void updateChoiceBoxStepByStep() {
+		choiceBoxStepByStep.getItems().clear();
+		for (int i = 0; i < numberOfProcesses; i++) {
+			choiceBoxStepByStep.getItems().add("P"+ Integer.toString(i));
+		}
+		choiceBoxStepByStep.setValue("P0");
 	}
 	
 	public void updateChoiceBoxProcessToCrash() {
@@ -373,8 +387,18 @@ public class FXMLController {
 		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
 		simulation.crashProcess(currentProcessId);
 		choiceBoxProcessToCrash.getItems().remove(currentProcess);
-		System.out.println(currentProcess + " crashed");
-		
+		choiceBoxStepByStep.getItems().remove(currentProcess);
+		System.out.println(currentProcess + " crashed");		
+	}
+	
+	public void onClickedStepByStepNextStep() throws BadSourceCodeException, RipException {
+		String processToExecute = choiceBoxStepByStep.getSelectionModel().getSelectedItem();
+		int processToExecuteId = Character.getNumericValue(processToExecute.charAt(1));
+		ArrayList<Integer> arrayExec = infos.getOriginalSourceLinesExecutedDuringLastStep(infos.getIdOfLastExecutedProcess());
+		simulation.nextStep(processToExecuteId);
+		updateProcess(infos.getIdOfLastExecutedProcess(),arrayExec.get(0));
+		updateSharedVariables();
+		updateLocalVariables();
 	}
 	
 	
