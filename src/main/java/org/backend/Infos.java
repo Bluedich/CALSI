@@ -55,16 +55,10 @@ public class Infos {
 	 * Get infos about the local variables of the specified process
 	 * @param processId the id of the specified process
 	 * @return infos about the local variables
+	 * @throws RipException 
 	 */
-	public VariableInfo[] getLocalVariables(int processId) {
-		Process processes[] = simulation.getProcesses();
-		
-		if ( processId > processes.length ) {
-			// If invalid processId, return empty array
-			return new VariableInfo[0];
-		}
-		
-		Variable localVars[] = processes[processId].getLocalVars();
+	public VariableInfo[] getLocalVariables(int processId) throws RipException {
+		Variable localVars[] = getProcess(processId).getLocalVars();
 		
 		return VariableArrayToVariableInfoArray(localVars);
 	}

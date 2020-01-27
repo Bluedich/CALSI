@@ -110,6 +110,9 @@ public class FXMLController {
 	
 	@FXML
 	private ChoiceBox<String> choiceBoxProcessToCrash;
+	
+	@FXML
+	private ChoiceBox<String> choiceBoxStepByStep;
 
 	@FXML
 	private Slider sliderSpeed;
@@ -154,8 +157,7 @@ public class FXMLController {
 	public void initialize() {
 
 		choiceBoxLocalVariables.getSelectionModel().selectedItemProperty()
-	    .addListener((obs, oldV, newV) -> 
-	    updateLocalVariables());
+	    .addListener((obs, oldV, newV) -> updateLocalVariables());
 		
 		choiceBoxScheduling.getItems().addAll("Step-by-step", "Random" , "With File");
 		choiceBoxScheduling.setValue("Step-by-step");
@@ -168,12 +170,14 @@ public class FXMLController {
 	public void speedtex() {
 		sliderSpeed.setValue(Double.valueOf(textFieldSpeed.getText()) );
 	}
+	
 	public void slidert() {
 		Double s= sliderSpeed.getValue();
 		String s2= df.format(s);
 		System.out.print(s+"\n");
 		textFieldSpeed.setText(""+s2);
 	}
+	
 	public void saveFile() {
 		System.out.print("test save\n");
 		code=textAreaOriginalCode.getText();
@@ -242,6 +246,7 @@ public class FXMLController {
 		System.out.print(infos.simulationIsDone());
 		initalizeProcess(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()));
 		updateChoiceBoxLocalVariables();
+		updateChoiceBoxStepByStep();
 		updateChoiceBoxProcessToCrash();
 		textAreaParsedCode.setText(infos.getNewSourceCode());
 	}
@@ -278,6 +283,14 @@ public class FXMLController {
 		choiceBoxLocalVariables.setValue("P0");
 	}
 	
+	public void updateChoiceBoxStepByStep() {
+		choiceBoxStepByStep.getItems().clear();
+		for (int i = 0; i < numberOfProcesses; i++) {
+			choiceBoxStepByStep.getItems().add("P"+ Integer.toString(i));
+		}
+		choiceBoxStepByStep.setValue("P0");
+	}
+	
 	public void updateChoiceBoxProcessToCrash() {
 		choiceBoxProcessToCrash.getItems().clear();
 		for (int i = 0; i < numberOfProcesses; i++) {
@@ -311,7 +324,14 @@ public class FXMLController {
 		String currentProcess = choiceBoxLocalVariables.getSelectionModel().getSelectedItem();
 		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
 		System.out.println("chosen process " + Integer.toString(currentProcessId));
-		VariableInfo[] variableInfo = infos.getLocalVariables(currentProcessId);
+		VariableInfo[] variableInfo;
+		try {
+			variableInfo = infos.getLocalVariables(currentProcessId);
+		} catch (RipException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		for(int i=0;i<variableInfo.length;i++)
 		{
 			if(variableInfo[i] == null)
@@ -319,6 +339,7 @@ public class FXMLController {
 				break;
 			}
 			else {
+				System.out.println("    " + variableInfo[i].getName() + " " + variableInfo[i].getValue());
 				content1.addAll(variableInfo[i].getName());
 				content2.addAll(variableInfo[i].getValue());
 			}
@@ -379,8 +400,18 @@ public class FXMLController {
 		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
 		simulation.crashProcess(currentProcessId);
 		choiceBoxProcessToCrash.getItems().remove(currentProcess);
-		System.out.println(currentProcess + " crashed");
-		
+		choiceBoxStepByStep.getItems().remove(currentProcess);
+		System.out.println(currentProcess + " crashed");		
+	}
+	
+	public void onClickedStepByStepNextStep() throws BadSourceCodeException, RipException {
+		String processToExecute = choiceBoxStepByStep.getSelectionModel().getSelectedItem();
+		int processToExecuteId = Character.getNumericValue(processToExecute.charAt(1));
+		ArrayList<Integer> arrayExec = infos.getOriginalSourceLinesExecutedDuringLastStep(infos.getIdOfLastExecutedProcess());
+		simulation.nextStep(processToExecuteId);
+		updateProcess(infos.getIdOfLastExecutedProcess(),arrayExec.get(0));
+		updateSharedVariables();
+		updateLocalVariables();
 	}
 	
 	public void startAuto() throws BackEndException, InterruptedException{
