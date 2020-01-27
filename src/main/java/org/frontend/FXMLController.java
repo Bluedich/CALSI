@@ -8,8 +8,6 @@ import java.text.DecimalFormat;
 import java.math.RoundingMode;
 import javafx.stage.FileChooser;
 import javafx.scene.control.MenuItem;
-import java.io.File;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -30,7 +28,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
