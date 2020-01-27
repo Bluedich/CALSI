@@ -6,7 +6,7 @@ Integer idRegister;
 // Shared variables initialization
 idRegister = -1;
 porte = true;
-// No local variables declaration
+// Local variables declaration
 Integer direction;
 // Splitter Algorithm
 idRegister = i;

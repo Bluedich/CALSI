@@ -8,9 +8,11 @@ import java.text.DecimalFormat;
 import java.math.RoundingMode;
 import javafx.stage.FileChooser;
 import javafx.scene.control.MenuItem;
-import java.io.File;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.Scene;
@@ -26,7 +28,7 @@ import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -106,6 +108,9 @@ public class FXMLController {
 	
 	@FXML
 	private ChoiceBox<String> choiceBoxProcessToCrash;
+	
+	@FXML
+	private ChoiceBox<String> choiceBoxStepByStep;
 
 	@FXML
 	private Slider sliderSpeed;
@@ -138,9 +143,9 @@ public class FXMLController {
 	private String code="Ici votre code";
 	private String fichiercode="";
 	private String cordo="";
-	private String listProc="";
 	private int numberOfProcesses;
 	private int [] processline;
+	
 	
 
 	
@@ -150,8 +155,7 @@ public class FXMLController {
 	public void initialize() {
 
 		choiceBoxLocalVariables.getSelectionModel().selectedItemProperty()
-	    .addListener((obs, oldV, newV) -> 
-	    updateLocalVariables());
+	    .addListener((obs, oldV, newV) -> updateLocalVariables());
 		
 		choiceBoxScheduling.getItems().addAll("Step-by-step", "Random" , "With File");
 		choiceBoxScheduling.setValue("Step-by-step");
@@ -160,18 +164,18 @@ public class FXMLController {
 		listView3.setItems(content3);
 		listView4.setItems(content4);
 		textAreaOriginalCode.setText(code);
-
-
 	}
 	public void speedtex() {
 		sliderSpeed.setValue(Double.valueOf(textFieldSpeed.getText()) );
 	}
+	
 	public void slidert() {
 		Double s= sliderSpeed.getValue();
 		String s2= df.format(s);
 		System.out.print(s+"\n");
 		textFieldSpeed.setText(""+s2);
 	}
+	
 	public void saveFile() {
 		System.out.print("test save\n");
 		code=textAreaOriginalCode.getText();
@@ -240,9 +244,9 @@ public class FXMLController {
 		System.out.print(infos.simulationIsDone());
 		initalizeProcess(Integer.parseInt(textFieldNumberOfProcessesRandom.getText()));
 		updateChoiceBoxLocalVariables();
+		updateChoiceBoxStepByStep();
 		updateChoiceBoxProcessToCrash();
 		textAreaParsedCode.setText(infos.getNewSourceCode());
-		
 	}
 
 	
@@ -275,6 +279,14 @@ public class FXMLController {
 			choiceBoxLocalVariables.getItems().add("P"+ Integer.toString(i));
 		}
 		choiceBoxLocalVariables.setValue("P0");
+	}
+	
+	public void updateChoiceBoxStepByStep() {
+		choiceBoxStepByStep.getItems().clear();
+		for (int i = 0; i < numberOfProcesses; i++) {
+			choiceBoxStepByStep.getItems().add("P"+ Integer.toString(i));
+		}
+		choiceBoxStepByStep.setValue("P0");
 	}
 	
 	public void updateChoiceBoxProcessToCrash() {
@@ -310,7 +322,14 @@ public class FXMLController {
 		String currentProcess = choiceBoxLocalVariables.getSelectionModel().getSelectedItem();
 		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
 		System.out.println("chosen process " + Integer.toString(currentProcessId));
-		VariableInfo[] variableInfo = infos.getLocalVariables(currentProcessId);
+		VariableInfo[] variableInfo;
+		try {
+			variableInfo = infos.getLocalVariables(currentProcessId);
+		} catch (RipException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		for(int i=0;i<variableInfo.length;i++)
 		{
 			if(variableInfo[i] == null)
@@ -318,6 +337,7 @@ public class FXMLController {
 				break;
 			}
 			else {
+				System.out.println("    " + variableInfo[i].getName() + " " + variableInfo[i].getValue());
 				content1.addAll(variableInfo[i].getName());
 				content2.addAll(variableInfo[i].getValue());
 			}
@@ -341,14 +361,18 @@ public class FXMLController {
 	
 	public void updateProcess(int nump,int linep) throws RipException{
         lineProc.getChildren().clear();
-		listProc="";
 		processline[nump]=linep;
 
 		for (int l = 0; l < countLines(code) ; l++) {
+			Text textForProcess2 = new Text(Integer.toString(l)+")"); 
+			textForProcess2.setFont(Font.font("System", 18.9));
+			textForProcess2.setStyle("-fx-font-weight: regular");
+			textForProcess2.setFill(Color.BLACK);
+			lineProc.getChildren().add(textForProcess2);
 			for (int i = 0; i < numberOfProcesses; i++) {
 				if (l==processline[i]) {
 					Text textForProcess = new Text("P"+Integer.toString(i)+","); 
-					textForProcess.setFont(Font.font("System", 12));
+					textForProcess.setFont(Font.font("System", 18.9));
 					textForProcess.setStyle("-fx-font-weight: regular");
 					textForProcess.setFill(Color.BLACK);
 					if(infos.processIsDone(i)) {
@@ -364,6 +388,7 @@ public class FXMLController {
 				}
 			}
 			Text textForProcess = new Text("\n"); 
+			textForProcess.setFont(Font.font("System", 18.9));
 			lineProc.getChildren().add(textForProcess);
 		}
 	}
@@ -373,8 +398,38 @@ public class FXMLController {
 		int currentProcessId = Character.getNumericValue(currentProcess.charAt(1));
 		simulation.crashProcess(currentProcessId);
 		choiceBoxProcessToCrash.getItems().remove(currentProcess);
-		System.out.println(currentProcess + " crashed");
-		
+		choiceBoxStepByStep.getItems().remove(currentProcess);
+		System.out.println(currentProcess + " crashed");		
+	}
+	
+	public void onClickedStepByStepNextStep() throws BadSourceCodeException, RipException {
+		String processToExecute = choiceBoxStepByStep.getSelectionModel().getSelectedItem();
+		int processToExecuteId = Character.getNumericValue(processToExecute.charAt(1));
+		ArrayList<Integer> arrayExec = infos.getOriginalSourceLinesExecutedDuringLastStep(infos.getIdOfLastExecutedProcess());
+		simulation.nextStep(processToExecuteId);
+		updateProcess(infos.getIdOfLastExecutedProcess(),arrayExec.get(0));
+		updateSharedVariables();
+		updateLocalVariables();
+	}
+	
+	public void startAuto() throws BackEndException, InterruptedException{
+		auto = true;
+		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() { 
+
+		    @Override
+		    public void handle(ActionEvent event) {
+		    	if (!infos.simulationIsDone() && auto) {
+		    		System.out.println( "youpi");
+		    	}
+		    }
+		}));
+		timeline.setCycleCount(10000000);
+		timeline.play();
+
+	}
+	
+	public void stopAuto(){
+		auto = false;		
 	}
 	
 	
