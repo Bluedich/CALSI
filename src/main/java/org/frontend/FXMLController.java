@@ -9,8 +9,12 @@ import java.math.RoundingMode;
 import javafx.stage.FileChooser;
 import javafx.scene.control.MenuItem;
 import java.io.File;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.scene.Scene;
@@ -381,10 +385,18 @@ public class FXMLController {
 	
 	public void startAuto() throws BackEndException, InterruptedException{
 		auto = true;
-		while (!infos.simulationIsDone() && auto) {
-			controllerPlusStep();
-			Thread.sleep(2000);
-		}		
+		Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2), new EventHandler<ActionEvent>() { 
+
+		    @Override
+		    public void handle(ActionEvent event) {
+		    	if (!infos.simulationIsDone() && auto) {
+		    		System.out.println( "youpi");
+		    	}
+		    }
+		}));
+		timeline.setCycleCount(10000000);
+		timeline.play();
+
 	}
 	
 	public void stopAuto(){
