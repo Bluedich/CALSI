@@ -1,17 +1,13 @@
 import java.lang.Math; 
 import java.lang.String;
-
 // Shared variables declaration
 Boolean porte;
 Integer idRegister;
-
 // Shared variables initialization
 idRegister = -1;
 porte = true;
-
 // Local variables declaration
 Integer direction;
-
 // Splitter Algorithm
 idRegister = i;
 if(porte == false){
